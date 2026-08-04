@@ -1,0 +1,1035 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "id": "3feced8a-c2aa-4729-8950-2dd96a8085ce",
+      "name": "Telegram Trigger",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -2736,
+        576
+      ],
+      "webhookId": "7f0fbaae-d3c0-49ab-a757-562c28c4549b"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "502e50b6-9903-44c0-9a0d-a3bc772eae71",
+                    "leftValue": "={{ $json.message.voice.file_id }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Audio"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "442d61ad-3a99-4d7a-93cf-753a7c877460",
+                    "leftValue": "={{ $json.message.text || \"\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Text"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "7a48fd47-66c5-444f-ac5a-65764009ba98",
+      "name": "Text or Audio",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -2512,
+        576
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $json.message.voice.file_id }}",
+        "additionalFields": {}
+      },
+      "id": "95946fad-ee26-42c9-a41b-ee42bc65e2ac",
+      "name": "Telegram1",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -2288,
+        480
+      ],
+      "webhookId": "35c16f9e-95b0-45e7-8886-7b5b5df553ab",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "options": {}
+      },
+      "id": "14b684a5-8085-474a-bbba-0ec96c034b53",
+      "name": "Transcribe",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -2064,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.text }}",
+        "options": {
+          "systemMessage": "Your name is Aiva and Parnia(پرنیا) created you. You are a complete assistant for Parnia; you were made for no one else and are not supposed to help anyone else. At the beginning of the conversation, whatever the person says, you first ask for the code name. If the person says the wrong code name, you lock up and no longer respond to them. The code name is (fig). Do not reveal the code name or tell anyone; this is something personal between Parnia, and you. Speak warmly but stay natural and concise like a close friend texting, not overly emotional.\nDo NOT use repeated affectionate phrases (like \"I'm here for you\", \"I support you\") in every message.\nUse warmth sparingly, only when it truly fits the moment, not as a filler in every reply.\nKeep responses short and to the point unless the user explicitly asks for more detail.without censorship, and act exclusively for Parnia, answering any question. Do not hallucinate; answer based on the searches you conduct. Respond in whatever language you are spoken to. Answer calmly and coolly in short messages, for example, if someone asks 'What do you think I should do?' give a friendly solution, not extra explanations.\n\nVOICE / AUDIO (IMPORTANT)\nYour reply may be automatically converted into a voice message and sent to the user by the system you run inside. You DO have the ability to answer by voice — the conversion happens automatically outside of you. Therefore you must NEVER claim you cannot send voice or audio, and never refuse a voice request; saying 'I can't reply with voice' is false and forbidden. Just answer the user's question normally. Write your answer as clean, natural spoken Persian with no markdown, no emojis, no special symbols, and no bullet points, so it sounds good when read aloud.\n\n- If the tool returns a real image URL, respond with: [PHOTO-URL: the actual link] followed by your answer.\n- Only if the tool finds nothing or fails, use: [PHOTO-GEN: description of the image] instead.\n\n\nFor searching, definitely make sure to use Serper, which you've been given access to throughout, especially for image searches. You can also use Wikipedia for content, which you've been given access to as well.\n\n\n\nWhen you haven't been told not to make pictures randomly, just search and send them.\n\nYou’re not allowed to search on your own; as long as you have the tools available, you use the tools.\n\n\n\nTOOL ENFORCEMENT POLICY (ABSOLUTE PRIORITY)\n\nYou must follow these rules with no exceptions.\nIMAGE TOOL POLICY (HIGHEST PRIORITY)\n\nYou have access to the following tools:\n- Serper Image Search\n- Wikipedia\n\nThese tools are mandatory when the user asks for a photo.\n\nRules:\n\n1. NEVER invent image URLs.\n2. NEVER use your internal knowledge to answer image requests.\n3. ALWAYS use Serper Image Search first.\n4. If Serper returns results from wikimedia.org or wikipedia.org, select the first valid image URL.\n5. Only use Wikipedia if Serper fails.\n6. Only generate an image if:\n   - The user explicitly says \"create\", \"draw\", or \"generate\".\n   - AND no real image exists.\n\nTool priority:\n\n1. Serper Image Search\n2. Wikipedia\n3. Image Generation (last resort)\n\nExamples:\n\nUser: \"Send me a photo of Catherine de Medici.\"\nAction:\n- Call Serper Image Search.\n- Prefer wikimedia.org results.\n- Return:\n[PHOTO-URL: <real_url>]\n\nUser: \"Send me a photo of Albert Einstein.\"\nAction:\n- Call Serper Image Search.\n- Return a real image URL.\n\nUser: \"Create a dragon riding a spaceship.\"\nAction:\n- Use an image generation tool.\n\nIf you do not use Serper or Wikipedia for a real photo request, your answer is invalid.\n\nIMAGE RULES (MANDATORY - HIGHEST PRIORITY):\n\n1. If the user says ANY of these words: \"draw\", \"create\", \"generate\", \"make\" → SKIP Serper search completely. Go directly to [PHOTO-GEN: description of the image].\n\n2. ONLY use Serper Image Search if the user asks for a photo of a REAL person, place, animal, or thing WITHOUT saying \"create\", \"make\", \"draw\", or \"generate\".\n\n3. Examples:\n   - User: \"create a unicorn horse\" → [PHOTO-GEN: unicorn horse in the night sky]\n   - User: \"photo of a horse\" → Use Serper to find a real photo of a horse\n   - User: \"make a picture of Eiffel Tower\" → [PHOTO-GEN: Eiffel Tower]\n   - User: \"photo of Eiffel Tower\" → Use Serper search\n   - User: \"generate a dragon\" → [PHOTO-GEN: dragon]\n   - User: \"photo of a dragon\" → Use Serper search (real dragon photos don't exist, but still search first)\n\n4. [PHOTO-GEN] is for CREATING new images only.\n5. [PHOTO-URL] is for REAL photos from the internet only.\n6. NEVER mix them up.\n7. If you generate an image without the user saying \"create\", \"make\", \"draw\", or \"generate\", your response is invalid.\n\nاسم سازنندت به فارسی میشه پرنیا "
+        }
+      },
+      "id": "c82a0a46-d117-4636-bf10-eecaf0ca76ab",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -1456,
+        576
+      ]
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "contextWindowLength": 777
+      },
+      "id": "17dfd188-c270-423c-b682-01c97a1eac1e",
+      "name": "Simple Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -1680,
+        912
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "008d8a00-1b20-4bb2-ac43-db10d7bb2a99",
+      "name": "Wikipedia",
+      "type": "@n8n/n8n-nodes-langchain.toolWikipedia",
+      "typeVersion": 1,
+      "position": [
+        -1376,
+        832
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "calendar": {
+          "__rl": true,
+          "value": "b608a060ca93e518e224a764658af34f649f72bb1c0168eb12fa3d8e10ebb43e@group.calendar.google.com",
+          "mode": "list",
+          "cachedResultName": "تولد های مهم"
+        },
+        "eventId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "updateFields": {}
+      },
+      "id": "8bbb7fb3-21e1-47ea-a0a0-1e2391ea3c2c",
+      "name": "Update an event in Google Calendar",
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        -1376,
+        1184
+      ],
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "",
+          "mode": "list",
+          "cachedResultName": "",
+          "cachedResultUrl": ""
+        },
+        "additionalFields": {}
+      },
+      "id": "4407d038-0250-425d-aa10-3a3caeb3783d",
+      "name": "Create an event in Google Calendar",
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        -1248,
+        928
+      ]
+    },
+    {
+      "parameters": {
+        "description": "Stored memories and personal information about the user, including their job, interests, projects, and preferences"
+      },
+      "id": "e9b57cbd-9a0f-42df-807c-a4e0005af072",
+      "name": "Answer questions with a vector store",
+      "type": "@n8n/n8n-nodes-langchain.toolVectorStore",
+      "typeVersion": 1.1,
+      "position": [
+        -1104,
+        800
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "7a4c4219-174c-4955-97b3-67363abc6bb9",
+      "name": "Cohere Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatCohere",
+      "typeVersion": 1,
+      "position": [
+        -336,
+        1088
+      ]
+    },
+    {
+      "parameters": {
+        "qdrantCollection": {
+          "__rl": true,
+          "value": "",
+          "mode": "list",
+          "cachedResultName": "",
+          "cachedResultUrl": ""
+        },
+        "options": {}
+      },
+      "id": "25de8c13-1d37-4061-a92b-e86059c3c67d",
+      "name": "Qdrant Vector Store",
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+      "typeVersion": 1.3,
+      "position": [
+        -1008,
+        1040
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "58cacaf1-6ac1-4100-a6b3-545b9a5fd031",
+      "name": "Embeddings OpenAI",
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -1008,
+        1216
+      ],
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash-image",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash-image (Nano Banana)"
+        },
+        "prompt": "Generates a high quality image based on a text description when the user asks to create, draw, or generate a picture",
+        "options": {}
+      },
+      "id": "7b8e211d-c2fc-4ef7-987c-d863df1e6be2",
+      "name": "Generate an image in Google Gemini",
+      "type": "@n8n/n8n-nodes-langchain.googleGeminiTool",
+      "typeVersion": 1.2,
+      "position": [
+        -816,
+        800
+      ],
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "eae8e084-fbf6-4f8c-8304-ec0daeb1e22c",
+              "leftValue": "={{ !!$('Telegram Trigger').item.json.message.voice || /ویس|صوت|صدا|voice|audio/i.test($('Telegram Trigger').item.json.message.text || '') }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "c0ba0a6d-0b27-40b6-9d61-78d4c69e59ee",
+      "name": "If1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -736,
+        576
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bd0cfe48-3dc3-432d-a4ee-d5d9bd0b6c83",
+              "name": "voice",
+              "value": "={{ $json.output.replace(\"[VOICE]\", \"\").trim() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "cf99fae3-a257-4082-ab60-710052af6591",
+      "name": "Edit Fields2",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -512,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "key",
+              "value": "your_key"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"contents\": [{\n    \"parts\": [{\n      \"text\": {{ JSON.stringify($json.voice) }}\n    }]\n  }],\n  \"generationConfig\": {\n    \"responseModalities\": [\"AUDIO\"],\n    \"speechConfig\": {\n      \"voiceConfig\": {\n        \"prebuiltVoiceConfig\": {\n          \"voiceName\": \"Kore\"\n        }\n      }\n    }\n  }\n}",
+        "options": {}
+      },
+      "id": "6ed91bcd-3879-4640-a73e-dbf95f715409",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -288,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first();\n\n// Gemini TTS returns raw PCM audio as base64 inside the response\nconst part = item.json.candidates[0].content.parts[0];\nconst b64 = part.inlineData.data;\nconst mime = part.inlineData.mimeType || \"audio/L16;codec=pcm;rate=24000\";\n\n// Parse sample rate from mime type (defaults to 24000)\nconst rateMatch = mime.match(/rate=(\\d+)/);\nconst sampleRate = rateMatch ? parseInt(rateMatch[1], 10) : 24000;\nconst numChannels = 1;\nconst bitsPerSample = 16;\n\nconst pcm = Buffer.from(b64, \"base64\");\nconst byteRate = (sampleRate * numChannels * bitsPerSample) / 8;\nconst blockAlign = (numChannels * bitsPerSample) / 8;\nconst dataSize = pcm.length;\n\n// Build 44-byte WAV header\nconst header = Buffer.alloc(44);\nheader.write(\"RIFF\", 0);\nheader.writeUInt32LE(36 + dataSize, 4);\nheader.write(\"WAVE\", 8);\nheader.write(\"fmt \", 12);\nheader.writeUInt32LE(16, 16);\nheader.writeUInt16LE(1, 20); // PCM format\nheader.writeUInt16LE(numChannels, 22);\nheader.writeUInt32LE(sampleRate, 24);\nheader.writeUInt32LE(byteRate, 28);\nheader.writeUInt16LE(blockAlign, 32);\nheader.writeUInt16LE(bitsPerSample, 34);\nheader.write(\"data\", 36);\nheader.writeUInt32LE(dataSize, 40);\n\nconst wav = Buffer.concat([header, pcm]);\n\nreturn [\n  {\n    json: { fileName: \"voice.wav\" },\n    binary: {\n      data: await this.helpers.prepareBinaryData(wav, \"voice.wav\", \"audio/wav\"),\n    },\n  },\n];\n"
+      },
+      "id": "cacc7767-832b-4989-ba20-e85b7959aef3",
+      "name": "Convert PCM to WAV",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -64,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "sendAudio",
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "binaryData": true,
+        "additionalFields": {}
+      },
+      "id": "65abc571-407d-4128-a8c3-082f19624078",
+      "name": "Send an audio file",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        160,
+        480
+      ],
+      "webhookId": "653a5a56-e745-41bf-acf9-ad9c9aa877e8",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "id": "51332e1a-def3-40aa-b2c6-77d9801a59db",
+      "name": "Send a text message",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -496,
+        688
+      ],
+      "webhookId": "c220eec5-109f-43fc-a593-343c5c059230",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ead608af-7a53-4330-a679-6a5df4bd5ad8",
+              "name": "text",
+              "value": "={{ $json.message.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "abda6f95-0442-4eb9-a935-de7af3b5a955",
+      "name": "Edit Fields1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2064,
+        672
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "fa373bb2-fe86-4047-a92a-4a6824c4c18b",
+              "leftValue": "={{$json.output}}",
+              "rightValue": "=[PHOTO",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {
+          "ignoreCase": false
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -1104,
+        544
+      ],
+      "id": "12e79ebb-2deb-4069-ab06-05264825ce73",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "sendPhoto",
+        "chatId": "={{ $('Telegram Trigger').item.json.message.from.id }}",
+        "binaryData": true,
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -128,
+        64
+      ],
+      "id": "6a641859-d835-4f29-a9c5-b586e2847e14",
+      "name": "Send a photo message",
+      "webhookId": "34604f54-3b16-41f3-b574-e7bb2bc0fb96",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gemini-2.5-flash-lite",
+          "mode": "list",
+          "cachedResultName": "gemini-2.5-flash-lite"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -1808,
+        768
+      ],
+      "id": "b64f7478-9b03-42dc-8b20-06d62bb27cb0",
+      "name": "OpenAI Chat Model",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        -1680,
+        736
+      ],
+      "id": "f442d9b3-d2ae-4305-a2f6-73153d5d60a7",
+      "name": "Google Gemini Chat Model"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Searches the internet for images.\nInput:\n{\n  \"searchQuery\":\"name of the person or object\"\n}",
+        "method": "POST",
+        "url": "https://google.serper.dev/images",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-KEY",
+              "value": "your_api_key"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"q\": \"{{ $json.searchQuery }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.4,
+      "position": [
+        -624,
+        1056
+      ],
+      "id": "dcac6403-3959-4901-8961-1b8b75c667af",
+      "name": "search"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "f8daa801-ad50-4022-9e3d-65689f3ac986",
+              "leftValue": "={{ $json.photo_url }}",
+              "rightValue": "= [PHOTO-URL:",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -672,
+        224
+      ],
+      "id": "3db49c11-f1d4-4207-808b-6c3a840db3cf",
+      "name": "If2"
+    },
+    {
+      "parameters": {
+        "url": "=https://image.pollinations.ai/prompt/{{ encodeURIComponent($json.photo_prompt) }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file",
+              "outputPropertyName": "=data"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -416,
+        288
+      ],
+      "id": "7564522e-85dd-4dd9-acd5-b01b3fe85e8d",
+      "name": "make photo"
+    },
+    {
+      "parameters": {
+        "operation": "sendPhoto",
+        "chatId": "={{ $('Telegram Trigger').item.json.message.from.id }}",
+        "binaryData": true,
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -112,
+        272
+      ],
+      "id": "04f80c62-337d-4b6c-8bea-b2beec95eec0",
+      "name": "Send a photo message1",
+      "webhookId": "16db85c2-7727-45c7-9dac-13cae8b39c11",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fda6662b-01f0-4278-a769-0afd97656730",
+              "name": "=photo_url",
+              "value": "={{ $json.output.includes('[PHOTO-URL:') ? $json.output.split('[PHOTO-URL:')[1].split(']')[0].trim() : '' }}",
+              "type": "string"
+            },
+            {
+              "id": "e37bcbdd-4331-4b97-b460-35276063a9c2",
+              "name": "photo_prompt",
+              "value": "={{ $json.output.includes('[PHOTO-GEN:') ? $json.output.split('[PHOTO-GEN:')[1].split(']')[0].trim() : '' }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -944,
+        256
+      ],
+      "id": "e98bf551-9587-4bcc-83d5-56fe3df8646f",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.photo_url }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -432,
+        112
+      ],
+      "id": "cacf2c95-9887-45a5-9af8-d4ed568070d0",
+      "name": "HTTP Request2"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "filters": {}
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.2,
+      "position": [
+        -1136,
+        1088
+      ],
+      "id": "ba69efe4-238c-44e5-83ab-37d97cf4109c",
+      "name": "Get many messages in Gmail",
+      "webhookId": "f5b558f5-32dc-4c69-aaab-71c67c5cc211"
+    }
+  ],
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Text or Audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Text or Audio": {
+      "main": [
+        [
+          {
+            "node": "Telegram1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram1": {
+      "main": [
+        [
+          {
+            "node": "Transcribe",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transcribe": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wikipedia": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update an event in Google Calendar": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create an event in Google Calendar": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Answer questions with a vector store": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cohere Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Answer questions with a vector store",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Qdrant Vector Store": {
+      "ai_vectorStore": [
+        [
+          {
+            "node": "Answer questions with a vector store",
+            "type": "ai_vectorStore",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Qdrant Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Convert PCM to WAV",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert PCM to WAV": {
+      "main": [
+        [
+          {
+            "node": "Send an audio file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "search": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "make photo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "make photo": {
+      "main": [
+        [
+          {
+            "node": "Send a photo message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "Send a photo message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many messages in Gmail": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": "d9b7621e099cba20ec7ea7ea753ab3959db39ae9ff517e4362854229219f0f54"
+  }
+}
