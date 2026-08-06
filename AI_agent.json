@@ -164,9 +164,9 @@
         "operation": "update",
         "calendar": {
           "__rl": true,
-          "value": "b608a060ca93e518e224a764658af34f649f72bb1c0168eb12fa3d8e10ebb43e@group.calendar.google.com",
+          "value": "",
           "mode": "list",
-          "cachedResultName": "تولد های مهم"
+          "cachedResultName": ""
         },
         "eventId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
         "updateFields": {}
