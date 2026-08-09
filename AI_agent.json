@@ -136,17 +136,22 @@
     {
       "parameters": {
         "sessionIdType": "customKey",
-        "sessionKey": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
-        "contextWindowLength": 777
+        "sessionKey": "={{ $('Telegram Trigger').item.json.message.chat.id }}"
       },
-      "id": "17dfd188-c270-423c-b682-01c97a1eac1e",
-      "name": "Simple Memory",
-      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
-      "typeVersion": 1.3,
+      "id": "13fd0a3f-1a1b-4757-a39e-ddbc89062410",
+      "name": "Postgres Chat Memory1",
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.4,
       "position": [
         -1680,
         912
-      ]
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "your_key",
+          "name": "your account"
+        }
+      }
     },
     {
       "parameters": {},
@@ -773,19 +778,10 @@
             "index": 0
           }
         ]
-      ]
-    },
-    "Simple Memory": {
-      "ai_memory": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_memory",
-            "index": 0
-          }
-        ]
-      ]
-    },
+      ]},
+   "Postgres Chat Memory1": {
+  "ai_memory": [ [ {"node": "AI Agent", "type": "ai_memory", "index": 0} ] ]
+},
     "Wikipedia": {
       "ai_tool": [
         [
