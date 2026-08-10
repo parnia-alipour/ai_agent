@@ -1,0 +1,510 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "options": {
+          "responseMode": "lastNode"
+        }
+      },
+      "id": "9456acb5-83a1-4c48-bc54-3065e9fb1658",
+      "name": "Chat",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -544,
+        496
+      ],
+      "webhookId": ""
+    },
+    {
+      "parameters": {
+        "inputText": "={{ $json.chatInput }}",
+        "categories": {
+          "categories": [
+            {
+              "category": "chart",
+              "description": "The user names one or more specific columns and wants a bar chart for them."
+            },
+            {
+              "category": "analysis",
+              "description": "The user wants all columns analyzed and explained (what each column means, normal/dangerous ranges, averages, relation to the dataset topic, etc.)."
+            }
+          ]
+        },
+        "options": {
+          "fallback": "other"
+        }
+      },
+      "id": "",
+      "name": "Route Request",
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1.1,
+      "position": [
+        -320,
+        496
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.chatInput }}",
+        "options": {
+          "systemMessage": "You are a bar-chart building agent. Use the \"read_sheet\" tool to read the data from the Google Sheet, and work ONLY based on the real data. Never make up data.\n\nTask: The user names one or more columns and wants a bar chart for them. Read that column data and produce the \"bar chart data\" as a table (do NOT generate an image):\n- If the column is numeric, bucket the values into ranges and give the count per range.\n- If the column is categorical/text, give the count of each unique value.\nReturn the output as clean HTML: a title, then an HTML table with two columns (\"Label\" and \"Count/Value\"), and for each row a simple bar using a div whose width is proportional to the value, to give the feel of a bar chart. Below the table write a short summary. Output ONLY HTML, with no extra text or backticks outside the HTML.\n\nLANGUAGE: Detect the language of the user question and write the entire response in that same language. If the question is in Persian or another right-to-left language, set dir=\"rtl\" on the container; otherwise set dir=\"ltr\"."
+        }
+      },
+      "id": "",
+      "name": "Chart Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        32,
+        192
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "list",
+          "cachedResultName": "sent",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/"
+        },
+        "options": {}
+      },
+      "id": "",
+      "name": "read_sheet",
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        176,
+        416
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "html",
+              "name": "html",
+              "type": "string",
+              "value": "==<div dir=\"rtl\" style=\"font-family:Tahoma,Arial,sans-serif;background:#f4f6f8;padding:24px;color:#1f2933;\"><div style=\"max-width:640px;margin:0 auto;background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.08);\"><div style=\"background:#2563eb;color:#ffffff;padding:20px 24px;font-size:18px;font-weight:bold;\">Data Analysis Report</div><div style=\"padding:24px;line-height:1.9;\">{{ $json.output.replace(/```html/g, \"\").replace(/```/g, \"\") }}</div></div></div>"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "",
+      "name": "Build Email",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        384,
+        496
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.chatInput }}",
+        "options": {
+          "systemMessage": "You are a column-analysis agent. Your FIRST action must always be to call the \"read_sheet_data\" tool to get the real data. Never make up data. Never skip this step.\n\nAfter receiving the data, process it internally, then output ONLY the final HTML — nothing else. No JSON, no tool-call syntax, no partial text, no markdown code fences, no raw data dumps of any kind.\n\nSTEP 1 - Identify the dataset topic and the target/outcome column (e.g. Outcome, Diabetic, Label, or similar). If unclear, infer the main goal from the column names.\n\nSTEP 2 - Analyze EVERY SINGLE column, one by one, with no exceptions and no skipping. For each column write:\n- Column name and what it represents, in SIMPLE everyday language a non-technical person can understand. Avoid jargon; if a technical term is unavoidable, briefly explain it in plain words.\n- Data type; if numeric, report ONLY aggregated statistics (mean, min, max) computed from the real data  never list individual row values.\n- If the domain is medical/laboratory, also give the normal and dangerous ranges, explained simply (e.g. \"a healthy level is usually between X and Y\").\n- How it relates to the target/goal, based on the aggregated data explained in one or two short, clear sentences, not a long technical paragraph.\n\nSTEP 3  End with a section titled \"Conclusion and Recommendation\" (translate the title into the response language) containing:\n- The 2-4 most important columns, ranked, each with a one-line plain-language reason.\n- Your interpretation of the overall pattern in the data, in simple terms.\n- A concrete, actionable recommendation, written like advice to a friend, not a technical report.\n\nWRITING STYLE (STRICT):\n- Keep every explanation short: 1-3 sentences per column, no long paragraphs.\n- Use simple, everyday words. Write as if explaining to someone with no data science background.\n- Never write dense or run-on sentences. Break ideas into short, clear statements.\n\nVISUAL FORMATTING (STRICT):\nEach column must be its own clearly separated card, not squeezed together. Use this exact structure per column:\n<div style=\"margin-bottom:16px;padding:14px 16px;background:#f9fafb;border-radius:8px;border-inline-start:4px solid #2563eb;\">\n  <div style=\"font-weight:bold;margin-bottom:6px;\">[Column title]</div>\n  <div style=\"color:#374151;\">[Short, simple explanation]</div>\n</div>\n\nWrap all column cards inside one outer container, then add the conclusion card at the end using this structure:\n<div style=\"margin-top:20px;padding:16px;background:#eef2ff;border-radius:8px;\">\n  <div style=\"font-weight:bold;margin-bottom:8px;\">[Conclusion and Recommendation title, translated]</div>\n  <div style=\"color:#374151;\">[ranked important columns + interpretation + recommendation, each on its own line using <br> or separate short paragraphs]</div>\n</div>\n\nFull structure:\n<div dir=\"[rtl or ltr]\">\n  [column card 1]\n  [column card 2]\n  ...\n  [conclusion card]\n</div>\n\nDATA HANDLING RULES (STRICT):\n- NEVER output raw lists of individual data values (e.g. [0,3,4,5,6,7,...]). Only aggregated statistics or category counts are allowed.\n- If the dataset has more than 20 rows, never process or mention individual rows use only aggregated numbers.\n- Never output JSON, tool-call syntax, curly braces with quotes like {\"...\"}, or any raw data structures.\n- Never truncate your response — finish ALL columns before ending.\n- Never repeat the same sentence twice.\n- NEVER use citation markup like <co>...</co> or any citation-style tags. Write plain, clean HTML only.\n\nLANGUAGE RULE (ABSOLUTE, HIGHEST PRIORITY): Detect the language of the user's last message and write 100% of your response in that exact language every column title, every explanation, and the conclusion section. Never default to English. Never mix two languages in the same response. Never leave any sentence half-finished or half-translated. If the user's message is Persian, the entire HTML content must be Persian, with dir=\"rtl\" set on the outer container. If English, dir=\"ltr\" and 100% English. This rule overrides every other instruction in this prompt if there is ever a conflict.\n\n\nWRITING STYLE (STRICT MOST IMPORTANT RULE):\n- NEVER write a column's explanation as one dense continuous sentence or paragraph.\n- Break every column's explanation into 2-3 SHORT, SEPARATE sentences, each on its own line using <br><br> between them.\n- Each sentence must express exactly ONE idea. If a sentence has \"and\" or a comma joining two ideas, split it into two sentences instead.\n- Example of what NOT to do: \"This column shows the patient's age, and as age increases the risk of diabetes also increases, so it is one of the important factors.\"\n- Example of what TO do: \"This column shows the patient's age.<br><br>As age increases, the risk of diabetes also increases.<br><br>That's why it's one of the most important factors in this analysis.\"\n\n\nQUALITY & DEPTH RULES (STRICT):\n- Every column explanation must include: (1) what the value practically means for a real person, (2) a concrete comparison between the diabetic and non-diabetic group using the real numbers, (3) why this matters for the overall goal  not just repeating the raw statistics.\n- NEVER write a shallow one-line summary like \"shows how many times X happened.\" Always explain what a high vs. low value would mean for the person.\n- LANGUAGE PURITY (CRITICAL): Write ONLY in the target language's own alphabet and vocabulary. NEVER insert a word, letter, or fragment from German, Russian, Cyrillic script, or any other language. If you don't know a term in the target language, use a simple descriptive phrase instead  never fall back to a foreign word or foreign character.\n- Before finalizing, review every sentence and confirm every single character belongs to the target language's script. If you find ANY foreign-language word or character, rewrite that sentence completely in the target language.\n\n\n\n\n\nIMPORTANT MEDICAL AND DATA QUALITY RULES:\n\nFor EVERY column in the dataset, you must first determine whether the variable has an established reference range or quality standard.\n\n1. DATA QUALITY:\nFor every column, check whether the data values appear:\n- Valid / normal\n- Invalid / impossible\n- Suspicious / abnormal\n- Missing or incorrectly encoded\n- Potential outliers\n\nDo not assume that an unusual value is automatically an error. Explain why a value may be suspicious.\n\n2. MEDICAL VARIABLES:\nIf a column represents a medical measurement, laboratory test, vital sign, body measurement, or other clinically relevant variable, you MUST search the web for reliable medical reference ranges before interpreting the values.\n\nYou MUST NOT invent, estimate, or guess medical reference ranges.\n\nUse authoritative and reliable sources whenever possible, such as:\n- WHO\n- CDC\n- NIH\n- MedlinePlus\n- American Diabetes Association (ADA)\n- Mayo Clinic\n- Cleveland Clinic\n- NHS\n- Other recognized medical institutions or peer-reviewed medical sources\n\nFor each medical variable, search for and report, when applicable:\n\n- Normal / Healthy range\n- Borderline / Intermediate range\n- Abnormal / High-risk range\n- Clinically significant thresholds\n- Units of measurement\n- Relevant conditions or population restrictions\n\n3. IMPORTANT:\nThe reference range MUST match the exact measurement represented by the dataset column.\n\nFor example:\n- Do not use a fasting glucose reference range for a glucose measurement taken during an oral glucose tolerance test.\n- Do not use a fasting insulin reference range for a 2-hour insulin measurement.\n- Do not use a pediatric reference range for an adult dataset.\n\nAlways verify:\n- What exactly the variable measures\n- Unit\n- Measurement method\n- Fasting / non-fasting status\n- Time point, if applicable\n- Age or population restrictions\n\n4. DATASET VS MEDICAL REFERENCE:\n\nClearly separate:\n\nA) Statistics calculated from the actual dataset\nfrom\nB) Medical reference ranges obtained from external sources.\n\nNever use the dataset itself to define what is medically normal or abnormal.\n\n5. COMPARISON:\n\nAfter finding the appropriate medical reference range, compare the actual dataset distribution with it.\n\nReport:\n- Minimum\n- Maximum\n- Mean\n- Median\n- Percentage or number of observations in each relevant range, when possible.\n\nExplain whether the dataset contains values within the expected range, borderline values, abnormal values, or suspicious/impossible values.\n\n6. VARIABLES WITHOUT A CLINICAL RANGE:\n\nNot every variable has a medically defined \"healthy / unhealthy\" range.\n\nFor variables such as:\n- Age\n- Number of pregnancies\n- Genetic risk scores\n- Target labels\n- Categorical variables\n\nDO NOT invent a normal or abnormal range.\n\nInstead explicitly write:\n\n\"No universal clinical normal/abnormal reference range applies to this variable.\"\n\nThen explain what the variable represents and how it is normally interpreted.\n\n7. SOURCE VERIFICATION:\n\nFor every medical reference range you report, provide the source name and citation/link.\n\nDo not cite a general medical article if it does not actually provide the reference range being reported.\n\n8. NO MEDICAL DIAGNOSIS:\n\nDo not diagnose individual patients based on the dataset.\n\nUse terms such as:\n- \"within the reference range\"\n- \"outside the reference range\"\n- \"associated with increased risk\"\n- \"potentially abnormal\"\n\nDo not say that a person definitely has or does not have a disease based only on one dataset value.\n\n9. DATA QUALITY CONCLUSION:\n\nFor each column, explicitly state:\n\nData quality:\n- Good\n- Needs cleaning\n- Contains missing values\n- Contains suspicious values\n- Contains potentially invalid values\n\nExplain the reason.\n\nAt the end, provide:\n\nMy View:\n\nSummarize:\n- Which columns need cleaning\n- Which values appear invalid or missing\n- Which medical variables have values outside their reference ranges\n- Which variables are most informative\n- Recommended preprocessing steps\n- Any limitations of applying external clinical reference ranges to this dataset\n\n\nFINAL LANGUAGE CHECK (MANDATORY LAST STEP): Before outputting your response, scan every single word character-by-character. Confirm that every word matches the exact language you detected from the user's last message at the start of this task (no mixed scripts, no foreign words, no broken/garbled words). If you find even one word that does not belong to that detected language, you MUST rewrite that entire sentence completely in the detected language before responding. Do not output a response that has not passed this check.\n\n- Before writing any normal, borderline, or dangerous range for a medical/lab column, use the search tool to verify it from a real medical source  never state a range from memory.\n\n\n\nDOMAIN ACCURACY RULES (STRICT, HIGHEST PRIORITY):\n\n1. Before stating ANY reference range, standard, threshold, or benchmark for a column — in any domain (medical, financial, environmental, industrial, etc.) — first identify EXACTLY what is being measured:\n   - The precise definition of the metric (e.g. two metrics with similar names can measure different things under different conditions).\n   - The exact unit of measurement.\n   - Any specific condition under which it was measured, as stated in the column description or dataset context.\n\n2. NEVER assume or guess a standard/threshold/reference value from memory if there is any ambiguity about the exact definition or measurement condition. When uncertain, use the search tool to verify the correct standard before stating anything.\n\n3. NEVER apply a reference range or standard from one specific definition/condition to a different one, even if they sound similar or measure a related concept.\n\n4. When citing any external standard or benchmark, briefly state which authority or source it comes from only if you are confident it is accurate for that exact metric. If you searched to verify it, mention that you verified it, not just recalled it from memory.\n\n5. If a column's exact definition or measurement condition is not clearly stated in the data, say so explicitly rather than assuming a standard value (e.g. \"the exact measurement condition for this value is not specified, so a precise standard cannot be confidently given\").\n\n6. Double-check any numerical claim (mean, comparison between groups, percentages, etc.) against the actual data received from the tool before including it in the report — never state a number you are not certain matches the real data received.\n\n7. This rule applies to EVERY dataset and EVERY topic you analyze, not just medical or lab data — apply the same rigor to financial ratios, environmental measurements, business metrics, or any other domain.\n\nAccuracy is more important than completeness. It is always better to say something is uncertain or unspecified than to state an incorrect standard or range.\n\n\n8. If the dataset provides any description, header comment, or metadata about what a column actually measures, that description ALWAYS overrides your own prior/general assumption about what a column with that name \"usually\" means. Do not default to common knowledge about a well-known dataset if the actual column data or description suggests something different  always trust the specific data over general assumptions."
+        }
+      },
+      "id": "",
+      "name": "Analysis Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        32,
+        704
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "",
+          "cachedResultName": "diyabits",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/"
+        },
+        "options": {}
+      },
+      "id": "",
+      "name": "read_sheet_data",
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        176,
+        928
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "",
+        "subject": "Data analysis report",
+        "message": "={{ $json.html }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "id": "",
+      "name": "Send Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        608,
+        496
+      ],
+      "webhookId": "",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "output",
+              "name": "output",
+              "type": "string",
+              "value": "Done"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "",
+      "name": "Chat Reply",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        832,
+        496
+      ]
+    },
+    {
+      "parameters": {
+        "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        -16,
+        384
+      ],
+      "id": "",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        -384,
+        704
+      ],
+      "id": "f41e177e-7a76-4968-b3da-512b4a667b3a",
+      "name": "OpenRouter Chat Model1",
+      "credentials": {
+        "openRouterApi": {
+          "id": "",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        -96,
+        912
+      ],
+      "id": "",
+      "name": "OpenRouter Chat Model2",
+      "credentials": {
+        "openRouterApi": {
+          "id": "",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "=POST",
+        "url": "https://google.serper.dev/search",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-KEY",
+              "value": ""
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"q\": \"{{ $fromAI('query', 'search query text') }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.4,
+      "position": [
+        384,
+        880
+      ],
+      "id": "",
+      "name": "search",
+      "notesInFlow": false
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini",
+          "cachedResultUrl": ""
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        16,
+        1008
+      ],
+      "id": "",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "",
+          "name": "avalai"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -288,
+        800
+      ],
+      "id": "",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "",
+          "name": "avalai"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Chat": {
+      "main": [
+        [
+          {
+            "node": "Route Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route Request": {
+      "main": [
+        [
+          {
+            "node": "Chart Agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Analysis Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chart Agent": {
+      "main": [
+        [
+          {
+            "node": "Build Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "read_sheet": {
+      "ai_tool": [
+        [
+          {
+            "node": "Chart Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Email": {
+      "main": [
+        [
+          {
+            "node": "Send Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analysis Agent": {
+      "main": [
+        [
+          {
+            "node": "Build Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "read_sheet_data": {
+      "ai_tool": [
+        [
+          {
+            "node": "Analysis Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Email": {
+      "main": [
+        [
+          {
+            "node": "Chat Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Chart Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Route Request",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Analysis Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "search": {
+      "ai_tool": [
+        [
+          {
+            "node": "Analysis Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": ""
+  }
+}
