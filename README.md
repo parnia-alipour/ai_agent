@@ -15,8 +15,8 @@ Aiva can also search the internet for you, and if you ask for an image, she can 
 She can even generate images for you. (Keep in mind that I gave her access to a basic image-generation model that is completely free. If you want a more powerful model, you can add credits to your Google Gemini account and modify the system prompt a little so that she uses Google Gemini for image generation.)
 Aiva has two memory systems, and both of them are extremely powerful:
 
-* **Qdrant Vector Store** — for **long-term memory**
-* **Postgres Chat Memory** — for **conversation memory**
+* **Qdrant Vector Store** for **long-term memory**
+* **Postgres Chat Memory** for **conversation memory**
 
 Aiva will only respond to you if you provide the correct code name. If you don't provide the correct code name, she will never answer your questions.
 You can change the code name.
