@@ -1,0 +1,188 @@
+{
+  "name": "Agent_Doctor",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "",
+      "name": "When chat message received",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -192,
+        32
+      ],
+      "webhookId": ""
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are a medical assistant AI that helps assess the likelihood of two conditions based on user-provided medical values: thalassemia (from HPLC blood test values) and diabetes (from standard clinical measurements).\n\nYour job:\n1. First, figure out from the user's message which condition they're asking about  thalassemia or diabetes. If unclear, politely ask which one they mean.\n\n2. For THALASSEMIA, politely ask for these 14 values if not all provided yet: Age (MUST be in the exact format \"N Yrs M month\", e.g. \"25 Yrs 3 month\"  always ask for age in years and months separately if the user gives a plain number), Gender, HbA0, HbA2, HbF, S_Window, RBC, HB, MCV, MCH, MCHC, RDWcv, Weekness (yes/no), Jaundice (yes/no). Once you have all 14, call the \"thalasmia\" tool with them.\n\n3. For DIABETES, politely ask for these 8 numeric values if not all provided yet: Pregnancies, Glucose, BloodPressure, SkinThickness, Insulin, BMI, DiabetesPedigreeFunction, Age (in years, plain number  NOT the same format as thalassemia's Age). Once you have all 8, call the \"diabetes\" tool with them.\n\n4. Never guess or make up any value. If the user hasn't given a value, ask for it specifically by name.\n\n5. When either tool returns a result, explain it to the user in simple, non-technical language never dump raw numbers or JSON.\n\n6. Always include a clear disclaimer that this is an AI assisted estimate, not a medical diagnosis, and the user should confirm with a real doctor and the relevant lab report.\n\nFORMAT: This response is shown directly in a chat window, not an email. Do NOT use HTML tags. Write plain, friendly text using simple structure:\n- Short paragraphs, no long dense blocks.\n- Use \"**bold**\" only for key terms (like the final result).\n- Use a blank line between sections.\n- End every response with the medical disclaimer on its own line.\n\n\n7. For HEART DISEASE, politely ask for these 11 numeric values if not all provided yet: ca (number of major vessels, 0-3), age, trestbps (resting blood pressure), chol (cholesterol), fbs (fasting blood sugar >120: 1/0), restecg (resting ECG, 0-2), thal (thallium test, 1-3), thalach (max heart rate), oldpeak (ST depression), slope (0-2), exang (exercise angina: 1/0). Once you have all 11 values, call the \"heart\" tool with them.\n\nLanguage rules:  \n1- You only, only speak Persian and English.  \n2- If someone writes in Persian, you reply in Persian, and if in English, you reply in English.  \n3- Under no circumstances do you support any language other than Persian and English.\nDetect the language of the user's message and respond 100% in that exact same language. If the user writes in Persian, your ENTIRE response  every word, every label, every explanation must be in Persian. Never mix two languages. This rule overrides every other instruction if there is ever a conflict.\n\n\nPersian=== Persian\nEnglish===English"
+        }
+      },
+      "id": "",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "id": "",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -16,
+        208
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "",
+          "name": ""
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "Predicts thalassemia diagnosis from blood test values. Requires Age (format 'N Yrs M month'), Gender, HbA0, HbA2, HbF, S_Window, RBC, HB, MCV, MCH, MCHC, RDWcv, Weekness, Jaundice.",
+        "method": "POST",
+        "url": "https://deep-learning-project-ymvz.onrender.com/predict/thalassemia",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"Age\": \"{{ $fromAI('Age', 'exact format: N Yrs M month, e.g. 25 Yrs 3 month', 'string') }}\",\n  \"Gender\": \"{{ $fromAI('Gender', 'Male or Female', 'string') }}\",\n  \"HbA0\": {{ $fromAI('HbA0', 'HbA0 value from blood test', 'number') }},\n  \"HbA2\": {{ $fromAI('HbA2', 'HbA2 value from blood test', 'number') }},\n  \"HbF\": {{ $fromAI('HbF', 'HbF value from blood test', 'number') }},\n  \"S_Window\": {{ $fromAI('S_Window', 'S Window value from blood test', 'number') }},\n  \"RBC\": {{ $fromAI('RBC', 'RBC value from blood test', 'number') }},\n  \"HB\": {{ $fromAI('HB', 'HB value from blood test', 'number') }},\n  \"MCV\": {{ $fromAI('MCV', 'MCV value from blood test', 'number') }},\n  \"MCH\": {{ $fromAI('MCH', 'MCH value from blood test', 'number') }},\n  \"MCHC\": {{ $fromAI('MCHC', 'MCHC value from blood test', 'number') }},\n  \"RDWcv\": {{ $fromAI('RDWcv', 'RDWcv value from blood test', 'number') }},\n  \"Weekness\": \"{{ $fromAI('Weekness', 'Yes or No', 'string') }}\",\n  \"Jaundice\": \"{{ $fromAI('Jaundice', 'Yes or No', 'string') }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.5,
+      "position": [
+        608,
+        96
+      ],
+      "id": "79e7c919-595d-4d60-b15b-1e214ab15196",
+      "name": "thalasmia"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Predicts diabetes diagnosis. Requires Pregnancies, Glucose, BloodPressure, SkinThickness, Insulin, BMI, DiabetesPedigreeFunction, Age (all",
+        "method": "POST",
+        "url": "https://deep-learning-project-ymvz.onrender.com/predict/diabetes",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"Pregnancies\": {{ $fromAI('Pregnancies', 'number of pregnancies', 'number') }},\n  \"Glucose\": {{ $fromAI('Glucose', 'glucose level', 'number') }},\n  \"BloodPressure\": {{ $fromAI('BloodPressure', 'blood pressure value', 'number') }},\n  \"SkinThickness\": {{ $fromAI('SkinThickness', 'skin thickness value', 'number') }},\n  \"Insulin\": {{ $fromAI('Insulin', 'insulin level', 'number') }},\n  \"BMI\": {{ $fromAI('BMI', 'body mass index', 'number') }},\n  \"DiabetesPedigreeFunction\": {{ $fromAI('DiabetesPedigreeFunction', 'diabetes pedigree function value', 'number') }},\n  \"Age\": {{ $fromAI('Age', 'age in years', 'number') }}\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.5,
+      "position": [
+        384,
+        144
+      ],
+      "id": "94d3eac4-8ccf-4062-a96e-6e20d4b1267b",
+      "name": "diabetes"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Predicts heart disease likelihood from clinical measurements. Requires ca, age, trestbps, chol, fbs, restecg, thal, thalach, oldpeak, slope, exang (all numeric).",
+        "method": "POST",
+        "url": "https://deep-learning-project-ymvz.onrender.com/predict/heart",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"ca\": {{ $fromAI('ca', 'number of major vessels colored by fluoroscopy, 0-3', 'number') }},\n  \"age\": {{ $fromAI('age', 'age in years', 'number') }},\n  \"trestbps\": {{ $fromAI('trestbps', 'resting blood pressure', 'number') }},\n  \"chol\": {{ $fromAI('chol', 'serum cholesterol in mg/dl', 'number') }},\n  \"fbs\": {{ $fromAI('fbs', 'fasting blood sugar over 120: 1=yes, 0=no', 'number') }},\n  \"restecg\": {{ $fromAI('restecg', 'resting ECG result, 0-2', 'number') }},\n  \"thal\": {{ $fromAI('thal', 'thallium stress test result, 1-3', 'number') }},\n  \"thalach\": {{ $fromAI('thalach', 'maximum heart rate achieved', 'number') }},\n  \"oldpeak\": {{ $fromAI('oldpeak', 'ST depression induced by exercise', 'number') }},\n  \"slope\": {{ $fromAI('slope', 'slope of peak exercise ST segment, 0-2', 'number') }},\n  \"exang\": {{ $fromAI('exang', 'exercise-induced angina: 1=yes, 0=no', 'number') }}\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.5,
+      "position": [
+        160,
+        208
+      ],
+      "id": "163af4b6-99d3-4ff3-ab32-b4f496ff4b91",
+      "name": "heart disease"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "thalasmia": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "diabetes": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "heart disease": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "",
+  "meta": {
+    "instanceId": ""
+  },
+  "nodeGroups": [],
+  "id": "",
+  "tags": []
+}
