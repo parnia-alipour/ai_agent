@@ -29,6 +29,8 @@ You can also change her name if you don't like the name Aiva.
 
 Aiva can use the access you give it to Google Calendar to add events or retrieve existing dates and tell you about them. For example, you can tell Aiva the birthdays of your loved ones, and it will save them for you. Later, if you ask Aiva about a birthday, it can use its access to your Google Calendar to find the date and tell you.
 
+To use Aiva, you need to create a chatbot through BotFather on Telegram, copy its token ID, and enter it into n8n.
+
 
 Aiva can communicate in both **Persian and English**.
 
