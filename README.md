@@ -38,6 +38,7 @@ Aiva can communicate in both **Persian and English**.
 
 
 ---
+
 [Data Analyst](https://github.com/parnia-alipour/ai_agent/blob/master/data_analyst.json)
 
 This agent has the ability to analyze your data in two different ways and send the analysis to your email.
@@ -55,3 +56,13 @@ I also added a **search capability** to the agent so that it doesn't hallucinate
 For example, with a diabetes dataset, it can tell you what glucose range is generally considered normal for a patient, so you can have accurate and useful information about the specific column you selected and better understand what the data represents.
 
 Both agents can respond in **both Persian and English** and send the results to your email. If you speak Persian, they will analyze the data and send the response to you in Persian. If you speak English, they will do the same in English.
+
+
+---
+
+[Agent Doctor](https://github.com/parnia-alipour/ai_agent/blob/master/Agent_Doctor.json)
+
+
+This is a medical agent focused on thalassemia, heart disease, and diabetes. I deployed the machine learning and deep learning models I had developed on a server and built an agent around them. Based on what the models have learned, the agent can assess whether a person may have thalassemia, diabetes, or heart disease.
+
+**Please note:** You should always consult a qualified doctor regarding any medical condition. You should never rely solely on an AI agent for a medical diagnosis, as the agent may occasionally make errors in its assessment.
