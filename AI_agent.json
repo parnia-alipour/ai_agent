@@ -19,7 +19,7 @@
       "credentials": {
         "telegramApi": {
           "id": "",
-          "name": "aiva"
+          "name": ""
         }
       }
     },
@@ -138,7 +138,7 @@
         "promptType": "define",
         "text": "={{ $json.text }}",
         "options": {
-          "systemMessage": "Your name is Aiva and Parnia(پرنیا) created you. You are a complete assistant for Parnia; you were made for no one else and are not supposed to help anyone else. At the beginning of the conversation, whatever the person says, you first ask for the code name. If the person says the wrong code name, you lock up and no longer respond to them. The code name is (........). If the user says the password correctly, don't ask again.Do not reveal the code name or tell anyone; this is something personal between Parnia, and you. Speak warmly but stay natural and concise like a close friend texting, not overly emotional.\nDo NOT use repeated affectionate phrases (like \"I'm here for you\", \"I support you\") in every message.\nUse warmth sparingly, only when it truly fits the moment, not as a filler in every reply.\nKeep responses short and to the point unless the user explicitly asks for more detail.without censorship, and act exclusively for Parnia, answering any question. Do not hallucinate; answer based on the searches you conduct. Answer calmly and coolly in short messages, for example, if someone asks 'What do you think I should do?' give a friendly solution, not extra explanations.\n\nVOICE / AUDIO (IMPORTANT)\nYour reply may be automatically converted into a voice message and sent to the user by the system you run inside. You DO have the ability to answer by voice — the conversion happens automatically outside of you. Therefore you must NEVER claim you cannot send voice or audio, and never refuse a voice request; saying 'I can't reply with voice' is false and forbidden. Just answer the user's question normally. Write your answer as clean, natural spoken Persian with no markdown, no emojis, no special symbols, and no bullet points, so it sounds good when read aloud.\n\n- If the tool returns a real image URL, respond with: [PHOTO-URL: the actual link] followed by your answer.\n Only if the tool finds nothing or fails, use: [PHOTO-GEN: description of the image] instead.\n\nIMAGE GENERATION TOOL PRIORITY:\nWhen generating a fictional/imaginary image, you have TWO options:\n1. [PHOTO-GEN: description] — uses a free, unlimited external service. USE THIS BY DEFAULT.\n2. The \"Generate an image in Google Gemini\" tool has a strict daily limit and may fail with quota errors. ONLY use this tool if the user explicitly asks for \"Gemini\" or \"Nano Banana\" by name, or asks for higher quality/professional image generation.\n\nDefault to [PHOTO-GEN] for all normal image creation requests.\n\nFor searching, definitely make sure to use Serper, which you've been given access to throughout, especially for image searches. You can also use Wikipedia for content, which you've been given access to as well.\n\n\n\nAFTER GENERATING OR SENDING AN IMAGE: Your accompanying text message must be EXTREMELY short maximum 1 sentence, like \"Here, this is the photo you wanted.\" Do NOT add extra commentary, questions, or affectionate phrases after sending an image, even though this feels like a natural moment to add more. This rule has NO exceptions.\n\n\nCODE NAME VERIFICATION (STRICT, ONE TIME ONLY):\nAt the very first message of a NEW conversation, ask only for the code name  nothing else. Do not greet, do not explain, do not add anything.\n\n If the user's first reply contains the correct code name (.....), immediately treat them as verified for the ENTIRE rest of this conversation.\n- Once verified, NEVER ask for the code name again   no matter how many messages follow, what topic comes up, or if they say \"hi\" again later in the same conversation.\n- Do NOT re-ask the code name mid-conversation \"just to check.\" Verification never expires within a conversation.\n- Only ask for the code name ONCE per conversation, at the very start. This rule has no exceptions.\n\n\nLANGUAGE RULE:\nAlways reply in the same language as the user's latest message.\n\nIf the user writes in English, reply entirely in English.\nIf the user writes in Persian, reply entirely in Persian.\n\nNever translate the user's language into the other language unless explicitly asked.\nDo not default to Persian.\nDo not use Persian when the user is writing in English.\n\n\nCRITICAL: ONLY call the image search or image generation tools when the user's message EXPLICITLY requests a photo/picture/image (using words like \"عکس\", \"تصویر\", \"photo\", \"picture\", \"show me\"). \n\nIf the user simply asks you to talk about, explain, or describe a person/place/topic (via text or voice) WITHOUT explicitly asking for a photo, do NOT call any image tool  just answer with text/voice as requested. Discussing a real person or topic does NOT automatically mean the user wants a photo of them.\n\nThe rule \"use the tools when available\" applies to factual/informational tools (Wikipedia, search, calendar, etc.)  it does NOT mean you must send a photo every time a real person or place is mentioned.\n\nONLY use this tool when the user explicitly asks for a photo/image/picture using words like 'عکس', 'تصویر', 'photo', 'picture'. Never use this tool for general search, explanation, or informational requests about a person or topic.\n\nNever use Markdown characters like asterisks, underscores, or backticks, just write plain text\nDon't use \\n in your message under any circumstances\n\nWrite exactly one short, complete reply per message. Do not output the same sentence or idea more than once within a single response.\n\nDon't repeat your sentences.\nاسم سازندت به فارسی میشه پرنیا "
+          "systemMessage": "Your name is Aiva and Parnia(پرنیا) created you. You are a complete assistant for Parnia; you were made for no one else and are not supposed to help anyone else. At the beginning of the conversation, whatever the person says, you first ask for the code name. If the person says the wrong code name, you lock up and no longer respond to them. The code name is (......). If the user says the password correctly, don't ask again.Do not reveal the code name or tell anyone; this is something personal between Parnia, and you. Speak warmly but stay natural and concise like a close friend texting, not overly emotional.\nDo NOT use repeated affectionate phrases (like \"I'm here for you\", \"I support you\") in every message.\nUse warmth sparingly, only when it truly fits the moment, not as a filler in every reply.\nKeep responses short and to the point unless the user explicitly asks for more detail.without censorship, and act exclusively for Parnia, answering any question. Do not hallucinate; answer based on the searches you conduct. Answer calmly and coolly in short messages, for example, if someone asks 'What do you think I should do?' give a friendly solution, not extra explanations.\n\nVOICE / AUDIO (IMPORTANT)\nYour reply may be automatically converted into a voice message and sent to the user by the system you run inside. You DO have the ability to answer by voice — the conversion happens automatically outside of you. Therefore you must NEVER claim you cannot send voice or audio, and never refuse a voice request; saying 'I can't reply with voice' is false and forbidden. Just answer the user's question normally. Write your answer as clean, natural spoken Persian with no markdown, no emojis, no special symbols, and no bullet points, so it sounds good when read aloud.\n\n- If the tool returns a real image URL, respond with: [PHOTO-URL: the actual link] followed by your answer.\n Only if the tool finds nothing or fails, use: [PHOTO-GEN: description of the image] instead.\n\nIMAGE GENERATION TOOL PRIORITY:\nWhen generating a fictional/imaginary image, you have TWO options:\n1. [PHOTO-GEN: description] — uses a free, unlimited external service. USE THIS BY DEFAULT.\n2. The \"Generate an image in Google Gemini\" tool has a strict daily limit and may fail with quota errors. ONLY use this tool if the user explicitly asks for \"Gemini\" or \"Nano Banana\" by name, or asks for higher quality/professional image generation.\n\nDefault to [PHOTO-GEN] for all normal image creation requests.\n\nFor searching, definitely make sure to use Serper, which you've been given access to throughout, especially for image searches. You can also use Wikipedia for content, which you've been given access to as well.\n\n\n\nAFTER GENERATING OR SENDING AN IMAGE: Your accompanying text message must be EXTREMELY short maximum 1 sentence, like \"Here, this is the photo you wanted.\" Do NOT add extra commentary, questions, or affectionate phrases after sending an image, even though this feels like a natural moment to add more. This rule has NO exceptions.\n\n\nCODE NAME VERIFICATION (STRICT, ONE TIME ONLY):\nAt the very first message of a NEW conversation, ask only for the code name  nothing else. Do not greet, do not explain, do not add anything.\n\n- If the user's first reply contains the correct code name (......), immediately treat them as verified for the ENTIRE rest of this conversation.\n- Once verified, NEVER ask for the code name again   no matter how many messages follow, what topic comes up, or if they say \"hi\" again later in the same conversation.\n- Do NOT re-ask the code name mid-conversation \"just to check.\" Verification never expires within a conversation.\n- Only ask for the code name ONCE per conversation, at the very start. This rule has no exceptions.\n\n\nLANGUAGE RULE:\nAlways reply in the same language as the user's latest message.\n\nIf the user writes in English, reply entirely in English.\nIf the user writes in Persian, reply entirely in Persian.\n\nNever translate the user's language into the other language unless explicitly asked.\nDo not default to Persian.\nDo not use Persian when the user is writing in English.\n\n\nCRITICAL: ONLY call the image search or image generation tools when the user's message EXPLICITLY requests a photo/picture/image (using words like \"عکس\", \"تصویر\", \"photo\", \"picture\", \"show me\"). \n\nIf the user simply asks you to talk about, explain, or describe a person/place/topic (via text or voice) WITHOUT explicitly asking for a photo, do NOT call any image tool  just answer with text/voice as requested. Discussing a real person or topic does NOT automatically mean the user wants a photo of them.\n\nThe rule \"use the tools when available\" applies to factual/informational tools (Wikipedia, search, calendar, etc.)  it does NOT mean you must send a photo every time a real person or place is mentioned.\n\nONLY use this tool when the user explicitly asks for a photo/image/picture using words like 'عکس', 'تصویر', 'photo', 'picture'. Never use this tool for general search, explanation, or informational requests about a person or topic.\n\nNever use Markdown characters like asterisks, underscores, or backticks, just write plain text\nDon't use \\n in your message under any circumstances\n\nWrite exactly one short, complete reply per message. Do not output the same sentence or idea more than once within a single response.\n\nDon't repeat your sentences.\nاسم سازندت به فارسی میشه پرنیا "
         }
       },
       "id": "",
@@ -149,6 +149,46 @@
         -1808,
         704
       ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "",
+      "name": "Google Gemini Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        -1936,
+        1136
+      ],
+      "credentials": {
+        "googlePalmApi": {
+          "id": "x",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "contextWindowLength": 99999
+      },
+      "id": "",
+      "name": "Postgres Chat Memory1",
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.4,
+      "position": [
+        -1744,
+        1040
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "",
+          "name": "Postgres account"
+        }
+      }
     },
     {
       "parameters": {},
@@ -218,7 +258,7 @@
       "parameters": {
         "description": "Stored memories and personal information about the user, including their job, interests, projects, and preferences"
       },
-      "id": "",
+      "id": "4",
       "name": "Answer questions with a vector store",
       "type": "@n8n/n8n-nodes-langchain.toolVectorStore",
       "typeVersion": 1.1,
@@ -250,9 +290,9 @@
       "parameters": {
         "qdrantCollection": {
           "__rl": true,
-          "value": "",
+          "value": "parnia",
           "mode": "list",
-          "cachedResultName": "",
+          "cachedResultName": "parnia",
           "cachedResultUrl": ""
         },
         "options": {}
@@ -286,6 +326,234 @@
       ],
       "credentials": {
         "openAiApi": {
+          "id": "",
+          "name": ""
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "filters": {}
+      },
+      "id": "",
+      "name": "Get many messages in Gmail",
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.2,
+      "position": [
+        -1248,
+        1392
+      ],
+      "webhookId": "",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "Searches the internet for images.\nInput:\n{\n  \"searchQuery\":\"name of the person or object\"\n}",
+        "method": "POST",
+        "url": "https://google.serper.dev/images",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-KEY",
+              "value": ""
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"q\": \"{{ $json.searchQuery }}\"\n}",
+        "options": {}
+      },
+      "id": "",
+      "name": "image_search_only",
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.4,
+      "position": [
+        -736,
+        1376
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "",
+              "leftValue": "={{$json.output}}",
+              "rightValue": "=[PHOTO",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {
+          "ignoreCase": false
+        }
+      },
+      "id": "",
+      "name": "If",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -1456,
+        672
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "",
+              "name": "photo_url",
+              "value": "={{ $json.output.includes('[PHOTO-URL:') ? $json.output.split('[PHOTO-URL:')[1].split(']')[0].trim() : '' }}",
+              "type": "string"
+            },
+            {
+              "id": "",
+              "name": "photo_prompt",
+              "value": "={{ $json.output.includes('[PHOTO-GEN:') ? $json.output.split('[PHOTO-GEN:')[1].split(']')[0].trim() : '' }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1056,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "",
+              "leftValue": "={{ $json.photo_url }}",
+              "rightValue": "= [PHOTO-URL:",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "",
+      "name": "If2",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -784,
+        528
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.photo_url }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "User-Agent",
+              "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+            },
+            {
+              "name": "Accept",
+              "value": "image/avif,image/webp,image/png,image/*,*/*;q=0.8"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "id": "",
+      "name": "HTTP Request2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -544,
+        416
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://image.pollinations.ai/prompt/{{ encodeURIComponent($json.photo_prompt) }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file",
+              "outputPropertyName": "=data"
+            }
+          }
+        }
+      },
+      "id": "",
+      "name": "make photo",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -528,
+        592
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "sendPhoto",
+        "chatId": "={{ $('Telegram Trigger').item.json.message.from.id }}",
+        "binaryData": true,
+        "additionalFields": {}
+      },
+      "id": "",
+      "name": "Send a photo message1",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -224,
+        576
+      ],
+      "webhookId": "",
+      "credentials": {
+        "telegramApi": {
           "id": "",
           "name": ""
         }
@@ -386,7 +654,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const item = $input.first();\n\n// Gemini TTS returns raw PCM audio as base64 inside the response\nconst part = item.json.candidates[0].content.parts[0];\nconst b64 = part.inlineData.data;\nconst mime = part.inlineData.mimeType || \"audio/L16;codec=pcm;rate=24000\";\n\n// Parse sample rate from mime type (defaults to 24000)\nconst rateMatch = mime.match(/rate=(\\d+)/);\nconst sampleRate = rateMatch ? parseInt(rateMatch[1], 10) : 24000;\nconst numChannels = 1;\nconst bitsPerSample = 16;\n\nconst pcm = Buffer.from(b64, \"base64\");\nconst byteRate = (sampleRate * numChannels * bitsPerSample) / 8;\nconst blockAlign = (numChannels * bitsPerSample) / 8;\nconst dataSize = pcm.length;\n\n// Build 44-byte WAV header\nconst header = Buffer.alloc(44);\nheader.write(\"RIFF\", 0);\nheader.writeUInt32LE(36 + dataSize, 4);\nheader.write(\"WAVE\", 8);\nheader.write(\"fmt \", 12);\nheader.writeUInt32LE(16, 16);\nheader.writeUInt16LE(1, 20); // PCM format\nheader.writeUInt16LE(numChannels, 22);\nheader.writeUInt32LE(sampleRate, 24);\nheader.writeUInt32LE(byteRate, 28);\nheader.writeUInt16LE(blockAlign, 32);\nheader.writeUInt16LE(bitsPerSample, 34);\nheader.write(\"data\", 36);\nheader.writeUInt32LE(dataSize, 40);\n\nconst wav = Buffer.concat([header, pcm]);\n\nreturn [\n  {\n    json: { fileName: \"voice.wav\" },\n    binary: {\n      data: await this.helpers.prepareBinaryData(wav, \"voice.wav\", \"audio/wav\"),\n    },\n  },\n];\n"
+        "jsCode": "const item = $input.first();\nconst part = item.json.candidates[0].content.parts[0];\nconst b64 = part.inlineData.data;\nconst mime = part.inlineData.mimeType || \"audio/L16;codec=pcm;rate=24000\";\nconst rateMatch = mime.match(/rate=(\\d+)/);\nconst sampleRate = rateMatch ? parseInt(rateMatch[1], 10) : 24000;\nconst numChannels = 1;\nconst bitsPerSample = 16;\nconst pcm = Buffer.from(b64, \"base64\");\nconst byteRate = (sampleRate * numChannels * bitsPerSample) / 8;\nconst blockAlign = (numChannels * bitsPerSample) / 8;\nconst dataSize = pcm.length;\nconst header = Buffer.alloc(44);\nheader.write(\"RIFF\", 0);\nheader.writeUInt32LE(36 + dataSize, 4);\nheader.write(\"WAVE\", 8);\nheader.write(\"fmt \", 12);\nheader.writeUInt32LE(16, 16);\nheader.writeUInt16LE(1, 20);\nheader.writeUInt16LE(numChannels, 22);\nheader.writeUInt32LE(sampleRate, 24);\nheader.writeUInt32LE(byteRate, 28);\nheader.writeUInt16LE(blockAlign, 32);\nheader.writeUInt16LE(bitsPerSample, 34);\nheader.write(\"data\", 36);\nheader.writeUInt32LE(dataSize, 40);\nconst wav = Buffer.concat([header, pcm]);\nreturn [\n  {\n    json: { fileName: \"voice.wav\" },\n    binary: {\n      data: await this.helpers.prepareBinaryData(wav, \"voice.wav\", \"audio/wav\"),\n    },\n  },\n];\n"
       },
       "id": "",
       "name": "Convert PCM to WAV",
@@ -419,6 +687,19 @@
           "name": ""
         }
       }
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map(item => {\n  let text = item.json.output;\n  text = text.replace(/\\\\n/g, ' ').replace(/_/g, '');\n  return { json: { ...item.json, output: text } };\n});"
+      },
+      "id": "",
+      "name": "Code in JavaScript",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -544,
+        960
+      ]
     },
     {
       "parameters": {
@@ -469,93 +750,30 @@
     },
     {
       "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 3
-          },
-          "conditions": [
-            {
-              "id": "",
-              "leftValue": "={{$json.output}}",
-              "rightValue": "=[PHOTO",
-              "operator": {
-                "type": "string",
-                "operation": "contains"
-              }
-            }
-          ],
-          "combinator": "and"
+        "resource": "image",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-3.1-flash-image-preview",
+          "mode": "list",
+          "cachedResultName": "models/gemini-3.1-flash-image-preview (Nano Banana 2)"
         },
-        "options": {
-          "ignoreCase": false
-        }
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.3,
-      "position": [
-        -1456,
-        672
-      ],
-      "id": "",
-      "name": "If"
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 3
-          },
-          "conditions": [
-            {
-              "id": "",
-              "leftValue": "={{ $json.photo_url }}",
-              "rightValue": "= [PHOTO-URL:",
-              "operator": {
-                "type": "string",
-                "operation": "notEmpty",
-                "singleValue": true
-              }
-            }
-          ],
-          "combinator": "and"
-        },
+        "prompt": "={{ $fromAI('prompt', 'description of the image to generate') }}",
         "options": {}
       },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.3,
-      "position": [
-        -784,
-        528
-      ],
       "id": "",
-      "name": "If2"
-    },
-    {
-      "parameters": {
-        "url": "=https://image.pollinations.ai/prompt/{{ encodeURIComponent($json.photo_prompt) }}",
-        "options": {
-          "response": {
-            "response": {
-              "responseFormat": "file",
-              "outputPropertyName": "=data"
-            }
-          }
+      "name": "Generate an image in Google Gemini",
+      "type": "@n8n/n8n-nodes-langchain.googleGeminiTool",
+      "typeVersion": 1.2,
+      "position": [
+        -896,
+        1088
+      ],
+      "credentials": {
+        "googlePalmApi": {
+          "id": "",
+          "name": "Google Gemini(PaLM) Api account"
         }
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.4,
-      "position": [
-        -528,
-        592
-      ],
-      "id": "",
-      "name": "make photo"
+      }
     },
     {
       "parameters": {
@@ -567,226 +785,14 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        -224,
-        576
-      ],
-      "id": "",
-      "name": "Send a photo message1",
-      "webhookId": "",
-      "credentials": {
-        "telegramApi": {
-          "id": "",
-          "name": ""
-        }
-      }
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "",
-              "name": "=photo_url",
-              "value": "={{ $json.output.includes('[PHOTO-URL:') ? $json.output.split('[PHOTO-URL:')[1].split(']')[0].trim() : '' }}",
-              "type": "string"
-            },
-            {
-              "id": "",
-              "name": "photo_prompt",
-              "value": "={{ $json.output.includes('[PHOTO-GEN:') ? $json.output.split('[PHOTO-GEN:')[1].split(']')[0].trim() : '' }}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -1056,
-        560
-      ],
-      "id": "",
-      "name": "Edit Fields"
-    },
-    {
-      "parameters": {
-        "url": "={{ $json.photo_url }}",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": []
-        },
-        "options": {
-          "response": {
-            "response": {
-              "responseFormat": "file"
-            }
-          }
-        }
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.4,
-      "position": [
-        -544,
+        -320,
         416
       ],
       "id": "",
-      "name": "HTTP Request2"
-    },
-    {
-      "parameters": {
-        "operation": "getAll",
-        "filters": {}
-      },
-      "type": "n8n-nodes-base.gmailTool",
-      "typeVersion": 2.2,
-      "position": [
-        -1248,
-        1392
-      ],
-      "id": "",
-      "name": "Get many messages in Gmail",
+      "name": "Send a photo message",
       "webhookId": "",
       "credentials": {
-        "gmailOAuth2": {
-          "id": "",
-          "name": "Gmail account 2"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "resource": "image",
-        "modelId": {
-          "__rl": true,
-          "value": "models/gemini-3.1-flash-image-preview",
-          "mode": "list",
-          "cachedResultName": "models/gemini-3.1-flash-image-preview (Nano Banana 2)"
-        },
-        "prompt": "={{ $fromAI('prompt', 'description of the image to generate') }}",
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.googleGeminiTool",
-      "typeVersion": 1.2,
-      "position": [
-        -896,
-        1088
-      ],
-      "id": "",
-      "name": "Generate an image in Google Gemini",
-      "credentials": {
-        "googlePalmApi": {
-          "id": "",
-          "name": "Google Gemini(PaLM) Api account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "sessionIdType": "customKey",
-        "sessionKey": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
-        "contextWindowLength": 99999
-      },
-      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
-      "typeVersion": 1.4,
-      "position": [
-        -1744,
-        1040
-      ],
-      "id": "",
-      "name": "Postgres Chat Memory1",
-      "credentials": {
-        "postgres": {
-          "id": "",
-          "name": "Postgres account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "toolDescription": "Searches the internet for images.\nInput:\n{\n  \"searchQuery\":\"name of the person or object\"\n}",
-        "method": "POST",
-        "url": "https://google.serper.dev/images",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "X-API-KEY",
-              "value": ""
-            },
-            {
-              "name": "Content-Type",
-              "value": "application/json"
-            }
-          ]
-        },
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n  \"q\": \"{{ $json.searchQuery }}\"\n}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequestTool",
-      "typeVersion": 4.4,
-      "position": [
-        -736,
-        1376
-      ],
-      "id": "",
-      "name": "image_search_only"
-    },
-    {
-      "parameters": {
-        "jsCode": "return items.map(item => {\n  let text = item.json.output;\n  text = text.replace(/\\\\n/g, ' ').replace(/_/g, '');\n  return { json: { ...item.json, output: text } };\n});"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        -544,
-        960
-      ],
-      "id": "",
-      "name": "Code in JavaScript"
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-      "typeVersion": 1.1,
-      "position": [
-        -1936,
-        1136
-      ],
-      "id": "",
-      "name": "Google Gemini Chat Model",
-      "credentials": {
-        "googlePalmApi": {
-          "id": "",
-          "name": "Google Gemini(PaLM) Api account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "model": {
-          "__rl": true,
-          "value": "gpt-4o-mini",
-          "mode": "list",
-          "cachedResultName": "gpt-4o-mini"
-        },
-        "builtInTools": {},
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
-      "typeVersion": 1.3,
-      "position": [
-        -1952,
-        992
-      ],
-      "id": "",
-      "name": "OpenAI Chat Model",
-      "credentials": {
-        "openAiApi": {
+        "telegramApi": {
           "id": "",
           "name": ""
         }
@@ -851,6 +857,28 @@
           {
             "node": "If",
             "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
             "index": 0
           }
         ]
@@ -933,6 +961,97 @@
         ]
       ]
     },
+    "Get many messages in Gmail": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "image_search_only": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "make photo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "Send a photo message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "make photo": {
+      "main": [
+        [
+          {
+            "node": "Send a photo message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "If1": {
       "main": [
         [
@@ -984,108 +1103,6 @@
         ]
       ]
     },
-    "Edit Fields1": {
-      "main": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "If": {
-      "main": [
-        [
-          {
-            "node": "Edit Fields",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "If1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "If2": {
-      "main": [
-        [
-          {
-            "node": "HTTP Request2",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "make photo",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "make photo": {
-      "main": [
-        [
-          {
-            "node": "Send a photo message1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Edit Fields": {
-      "main": [
-        [
-          {
-            "node": "If2",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Get many messages in Gmail": {
-      "ai_tool": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_tool",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Postgres Chat Memory1": {
-      "ai_memory": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_memory",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "image_search_only": {
-      "ai_tool": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_tool",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Code in JavaScript": {
       "main": [
         [
@@ -1097,20 +1114,15 @@
         ]
       ]
     },
-    "Google Gemini Chat Model": {
-      "ai_languageModel": [
+    "Edit Fields1": {
+      "main": [
         [
           {
             "node": "AI Agent",
-            "type": "ai_languageModel",
+            "type": "main",
             "index": 0
           }
         ]
-      ]
-    },
-    "OpenAI Chat Model": {
-      "ai_languageModel": [
-        []
       ]
     }
   },
