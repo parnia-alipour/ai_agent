@@ -32,6 +32,8 @@ Aiva can use the access you give it to Google Calendar to add events or retrieve
 To use Aiva, you need to create a chatbot through BotFather on Telegram, copy its token ID, and enter it into n8n.
 
 
+Please note: if you use that Gemini model for the agent and tell it "please send me a photo of a queen (or anything)" repeatedly, and the agent doesn't respond, it's probably because it searched that site and got blocked  the site likely detected it as a bot. Come back tomorrow and request a picture on that topic from that site again.
+Wikipedia and similar sites don't like slow or unusual requests. If the agent takes too long to respond, they might think it's a bot and block it. (from personal experience)
 Aiva can communicate in both **Persian and English**.
 
 
