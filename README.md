@@ -83,22 +83,27 @@ The agent can analyze cryptocurrency, stock, and forex markets across multiple t
 
 For cryptocurrencies:
 
-1h (Hourly) :Short-term
-1d (Daily) : Medium-term
-1w (Weekly) :Long-term
-1M (Monthly): Multi-year trends
+* 1h (Hourly) :Short-term
+* 1d (Daily) : Medium-term
+* 1w (Weekly) :Long-term
+* 1M (Monthly): Multi-year trends
 
 For U.S. stocks:
 
-TIME_SERIES_DAILY : Daily
-TIME_SERIES_WEEKLY: Weekly
-TIME_SERIES_MONTHLY : Monthly
+- TIME_SERIES_DAILY : Daily
+
+- TIME_SERIES_WEEKLY: Weekly
+
+- TIME_SERIES_MONTHLY : Monthly
 
 For forex:
 
-FX_DAILY : Daily
-FX_WEEKLY : Weekly
-FX_MONTHLY : Monthly
+* FX_DAILY : Daily
+
+* FX_WEEKLY : Weekly
+
+* FX_MONTHLY : Monthly
+
 
 I have also given the agent access to both technical and fundamental analysis. In addition, it can analyze market sentiment and trading volume. By combining all of these factors, the agent provides an assessment of whether the market is likely to move upward or downward. At the end of each analysis, it provides an estimated probability percentage for a bullish or bearish movement.
 
