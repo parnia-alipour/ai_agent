@@ -38,6 +38,9 @@ Aiva can communicate in both **Persian and English**.
 
 
 
+Talk with Aiva...
+
+![aiva2](https://raw.githubusercontent.com/parnia-alipour/ai_agent/master/for%20readme/hello.gif)
 
 ---
 
