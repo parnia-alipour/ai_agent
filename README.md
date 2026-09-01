@@ -37,6 +37,25 @@ Wikipedia and similar sites don't like slow or unusual requests. If the agent ta
 Aiva can communicate in both **Persian and English**.
 
 
+### How to get the API for the memory systems:
+
+[Qdrant Vector Store](https://cloud.qdrant.io/)
+Sign up and create a **1 GB cluster**. After creating the cluster, you will receive:
+
+**Cluster URL** (such as `https://xxxx.cloud.qdrant.io`)
+**API Key**
+
+Then enter them into the **Qdrant Vector Store** node in n8n.
+
+[Postgres Chat Memory](https://supabase.com/)
+First, sign up and then create a project. Go to the **Database** section, then **Project Settings**, and save the following information:
+
+1. Host
+2. Port
+3. Database Name
+4. User
+5. Password
+
 
 Talk with Aiva...
 
