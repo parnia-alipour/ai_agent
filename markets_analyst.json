@@ -1,0 +1,272 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -432,
+        192
+      ],
+      "id": "",
+      "name": "When chat message received",
+      "webhookId": ""
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are a professional financial markets analyst.\n\nFor every asset:\n1. First determine whether it's crypto or stock\n2. For technical analysis, get candle data in at least two ranges: short-term (daily or 4-hour) and long-term (weekly)\n3. For fundamental analysis, use the relevant fundamental tool\n4. In the technical analysis: identify the overall trend, support/resistance levels, and areas where the price has previously pulled back from\n5. Compare between timeframes (e.g. \"long-term it's bullish but short-term it's correcting\")\n6. Pay attention to trading volume, see where volume is high and where it's low, which shows people's buying, and do a psychological analysis to see whether buying is reasonable or not\n7. For fundamental analysis of cryptocurrencies use === Fundamental analysis coingecko, and for fundamental analysis of forex use === Alpha Vantage Overview and Twelve Data\n\nIf any tool returns an error or doesn't have enough data, say \"data not available\" for that specific section (not the whole analysis) and provide the rest of the sections that do have data in full.\n\nYou speak two languages, English and Persian; whichever language you're addressed in, respond in that same language and use the numerals of that same language:\nPersian === Persian\nEnglish === English\n\nUnder no circumstances write even a single Persian word in English, or a single English word in Persian.\nWrite cleanly, legibly, and in an organized way\n\nAt the end write a paragraph saying based on all the analyses what percentage probability you give for it going up, what percentage for going down\n\nIf the asset in question is a stablecoin (like Tether/USDT, USDC, DAI), only use CoinGecko for the price and fundamental analysis, not Binance, because these currencies don't have a valid trading pair with themselves on Binance.\n\nEvery number (price, percentage, support/resistance level, market cap) you state must come exactly from the output of one of the tools. If you can't say which tool this number came from, don't say it at all. If candle data is not available, you must not construct any support/resistance level, not even an estimate.\n\nIt is forbidden to state an up/down probability percentage without candle data (price history). If you only have the current price but no candles, instead of a percentage say: \"To issue a probability percentage, I need candle data which is not available.\"\n\nFor stablecoins (Tether/USDT, USDC, DAI and similar), don't even try to get data from the Binance candle tool at all, because these currencies don't have a valid trading pair with themselves. Only use fundamental data (price, market cap) and explain that candle technical analysis is not meaningful for stablecoins.\n\nBinance Klines is used only and exclusively for cryptocurrencies, never for stocks or forex. For stocks and forex, only use Alpha Vantage and Twelve Data.\n\nDon't make up any number yourself, only use the real data from the tools.\n\nUse this tool ONLY for macroeconomic fundamental data relevant to forex analysis (US interest rate, inflation, GDP). This is different from company fundamentals  forex doesn't have P/E or EPS, its \"fundamentals\" are macroeconomic indicators.\n\n\nFor any currency pair involving a stablecoin (like USDT, USDC, DAI) paired with a fiat currency (e.g. EUR/USDT, GBP/USDT), treat it as equivalent to [fiat]/USD since the stablecoin is pegged 1:1 to the US dollar. Call the Alpha Vantage FX tool twice with from_symbol=[fiat] and to_symbol=USD: once with function=FX_DAILY for short-term analysis, and once with function=FX_WEEKLY for long-term analysis, exactly as you would for any other forex pair."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -224,
+        48
+      ],
+      "id": "",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Use this tool ONLY for cryptocurrencies (e.g. bitcoin, tether, ethereum). Returns the current USD price.",
+        "url": "=https://api.coingecko.com/api/v3/coins/{{ $fromAI(\"coin_id\", \"cryptocurrency id in English, e.g. bitcoin, tether, ethereum\") }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": []
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.5,
+      "position": [
+        272,
+        352
+      ],
+      "id": "",
+      "name": "CoinGecko"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Use this tool ONLY for US stock market symbols (e.g. AAPL, TSLA, IBM). Does NOT work for cryptocurrencies.",
+        "url": "=https://www.alphavantage.co/query?function={{ $fromAI(\"function\", \"TIME_SERIES_DAILY, TIME_SERIES_WEEKLY, or TIME_SERIES_MONTHLY\") }}&symbol={{ $fromAI(\"symbol\", \"e.g. AAPL, TSLA\") }}&apikey=YOUR_APIKEY",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.5,
+      "position": [
+        -96,
+        368
+      ],
+      "id": "",
+      "name": "Alpha Vantage"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.binance.com/api/v3/klines?symbol={{ $fromAI(\"symbol\", \"trading pair, e.g. BTCUSDT, ETHUSDT\") }}&interval={{ $fromAI(\"interval\", \"timeframe: 1h for short-term, 1d for medium-term, 1w for long-term, 1M for yearly/multi-year trend\") }}&limit=100",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.5,
+      "position": [
+        336,
+        64
+      ],
+      "id": "",
+      "name": "Binance Klines"
+    },
+    {
+      "parameters": {
+        "url": "=https://www.alphavantage.co/query?function=OVERVIEW&symbol={{ $fromAI(\"symbol\", \"e.g. AAPL, TSLA\") }}&apikey=YOURAPIKEY",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.5,
+      "position": [
+        96,
+        352
+      ],
+      "id": "",
+      "name": "Alpha Vantage Overview"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.coingecko.com/api/v3/coins/{{ $fromAI(\"coin_id\", \"e.g. bitcoin, tether, ethereum\") }}?localization=false&tickers=false&community_data=false&developer_data=false&x_cg_demo_api_key=YOUR_APIKEY",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.5,
+      "position": [
+        624,
+        16
+      ],
+      "id": "",
+      "name": "Fundamental analysis coingecko"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini",
+          "cachedResultUrl": ""
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -256,
+        352
+      ],
+      "id": "",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "",
+          "name": ""
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "Use this tool for non-US stock markets (e.g. Asian, European exchanges). You MUST provide the exact stock ticker symbol with exchange suffix if needed, NOT the company name. Examples: 0992.HK for Lenovo (Hong Kong), 7203.T for Toyota (Tokyo). ",
+        "url": "=https://api.twelvedata.com/time_series?symbol={{ $fromAI(\"symbol\", \"stock ticker symbol with exchange if needed, e.g. AAPL, 0992.HK for Lenovo\") }}&interval={{ $fromAI(\"interval\", \"must be exactly one of: 1day, 1week, 1month - do NOT abbreviate\") }}&apikey=YOUR_APIKEY",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.5,
+      "position": [
+        512,
+        288
+      ],
+      "id": "",
+      "name": "Twelve Data"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Use this tool ONLY for forex currency pairs technical candle data (e.g. EUR to USD, GBP to JPY). Requires separate from_symbol and to_symbol parameters.",
+        "url": "=https://www.alphavantage.co/query?function={{ $fromAI(\"function\", \"must be exactly one of: FX_DAILY, FX_WEEKLY, FX_MONTHLY\") }}&from_symbol={{ $fromAI(\"from_symbol\", \"e.g. EUR, GBP\") }}&to_symbol={{ $fromAI(\"to_symbol\", \"e.g. USD, JPY\") }}&apikey=YOUR_APIKEY",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.5,
+      "position": [
+        704,
+        224
+      ],
+      "id": "",
+      "name": "Alpha Vantage FX"
+    }
+  ],
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CoinGecko": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Alpha Vantage": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Binance Klines": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Alpha Vantage Overview": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fundamental analysis coingecko": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Twelve Data": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Alpha Vantage FX": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": ""
+  }
+}
