@@ -68,3 +68,44 @@ Both agents can respond in **both Persian and English** and send the results to 
 This is a medical agent focused on thalassemia, heart disease, and diabetes. I deployed the machine learning and deep learning models I had developed on a server and built an agent around them. Based on what the models have learned, the agent can assess whether a person may have thalassemia, diabetes, or heart disease.
 
 **Please note:** You should always consult a qualified doctor regarding any medical condition. You should never rely solely on an AI agent for a medical diagnosis, as the agent may occasionally make errors in its assessment.
+
+
+---
+
+[Analyst Agent](https://github.com/parnia-alipour/ai_agent/blob/master/markets_analyst.json)
+
+This agent is capable of generating signals for financial markets. I have equipped the agent with the ability to calculate support and resistance levels as well as pullbacks. Based on the mathematical calculations it performs in its underlying layer, the agent determines whether the market trend is bullish or bearish.
+
+The agent can analyze cryptocurrency, stock, and forex markets across multiple timeframes:
+
+For cryptocurrencies:
+
+1h (Hourly) :Short-term
+1d (Daily) : Medium-term
+1w (Weekly) :Long-term
+1M (Monthly): Multi-year trends
+
+For U.S. stocks:
+
+TIME_SERIES_DAILY : Daily
+TIME_SERIES_WEEKLY: Weekly
+TIME_SERIES_MONTHLY : Monthly
+
+For forex:
+
+FX_DAILY : Daily
+FX_WEEKLY : Weekly
+FX_MONTHLY : Monthly
+
+I have also given the agent access to both technical and fundamental analysis. In addition, it can analyze market sentiment and trading volume. By combining all of these factors, the agent provides an assessment of whether the market is likely to move upward or downward. At the end of each analysis, it provides an estimated probability percentage for a bullish or bearish movement.
+
+Important Notice:
+Please do not rely solely on this agent when making buying or selling decisions. Financial markets are inherently unpredictable, and the agent's analysis should not be considered financial advice or a guarantee of future market movements. 
+
+I used Alpha Vantage for technical analysis and Alpha Vantage Overview for fundamental analysis of U.S. stocks, so that the agent can perform very good analysis. I also added Twelve Data with the goal of using non-U.S. and international markets, but unfortunately, to access international markets, you must upgrade your Twelve Data account to Premium and make a small change to the prompt to tell the agent to use this tool. In this project, I placed it alongside Alpha Vantage for analyzing U.S. stocks.
+
+For analyzing the forex market, I used Alpha Vantage FX this is a separate tool dedicated to currency pairs (like EUR/USD), not stocks. The agent can analyze currency pairs and provide signals based on the same support/resistance and pullback logic.
+
+CoinGecko, Fundamental Analysis CoinGecko, and Binance Klines are used for both technical and fundamental analysis, but specifically for the cryptocurrency market (such as Bitcoin, Ethereum, etc.), and as mentioned, these tools also calculate support and resistance zones and pullbacks, just like forex.
+
+### 🔴Any attempt to scam, misuse, exploit, or sell this agent through other channels, or to take advantage of other people's lack of knowledge or trust, will be dealt with very seriously and strictly🔴
