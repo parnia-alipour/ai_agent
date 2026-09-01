@@ -116,4 +116,17 @@ For analyzing the forex market, I used Alpha Vantage FX this is a separate tool 
 
 CoinGecko, Fundamental Analysis CoinGecko, and Binance Klines are used for both technical and fundamental analysis, but specifically for the cryptocurrency market (such as Bitcoin, Ethereum, etc.), and as mentioned, these tools also calculate support and resistance zones and pullbacks, just like forex.
 
+**Important:** Unfortunately, Alpha Vantage has a daily limit of 25 requests. If you notice that it is no longer responding, you will need to try again later.
+
 ### 🔴Any attempt to scam, misuse, exploit, or sell this agent through other channels, or to take advantage of other people's lack of knowledge or trust, will be dealt with very seriously and strictly🔴
+
+
+----
+
+How to get an API key for Analyst Agent:
+
+[Alpha](https://www.alphavantage.co/support/#api-key)
+[CoinGecko](https://www.coingecko.com/en/api/pricing)
+[Twelve Data](https://twelvedata.com/pricing)
+
+After obtaining your API key, **do not share it with anyone under any circumstances**. Enter it in the **API** field in the URL section of the agent’s JSON file, or, after copying and pasting the agent into your n8n workflow, enter it in the **API** field.
