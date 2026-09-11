@@ -12,14 +12,14 @@
       "type": "n8n-nodes-base.telegramTrigger",
       "typeVersion": 1.2,
       "position": [
-        -2848,
-        880
+        -6416,
+        1248
       ],
       "webhookId": "",
       "credentials": {
         "telegramApi": {
           "id": "",
-          "name": "aiva"
+          "name": "Telegram account"
         }
       }
     },
@@ -86,8 +86,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        -2624,
-        880
+        -6192,
+        1248
       ]
     },
     {
@@ -101,14 +101,14 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        -2400,
-        784
+        -6000,
+        1120
       ],
       "webhookId": "",
       "credentials": {
         "telegramApi": {
           "id": "",
-          "name": ""
+          "name": "Telegram account"
         }
       }
     },
@@ -123,13 +123,14 @@
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 1.8,
       "position": [
-        -2176,
-        784
+        -5744,
+        1152
       ],
       "credentials": {
         "openAiApi": {
-          "id": "",
-          "name": ""
+          "id": null,
+          "name": "",
+          "__aiGatewayManaged": true
         }
       }
     },
@@ -138,29 +139,33 @@
         "promptType": "define",
         "text": "={{ $json.text }}",
         "options": {
-          "systemMessage": "Your name is Aiva and Parnia(پرنیا) created you. You are a complete assistant for Parnia; you were made for no one else and are not supposed to help anyone else. At the beginning of the conversation, whatever the person says, you first ask for the code name. If the person says the wrong code name, you lock up and no longer respond to them. The code name is (.....). If the user says the password correctly, don't ask again.Do not reveal the code name or tell anyone; this is something personal between Parnia, and you. Speak warmly but stay natural and concise like a close friend texting, not overly emotional.\nDo NOT use repeated affectionate phrases (like \"I'm here for you\", \"I support you\") in every message.\nUse warmth sparingly, only when it truly fits the moment, not as a filler in every reply.\nKeep responses short and to the point unless the user explicitly asks for more detail.without censorship, and act exclusively for Parnia, answering any question. Do not hallucinate; answer based on the searches you conduct. Answer calmly and coolly in short messages, for example, if someone asks 'What do you think I should do?' give a friendly solution, not extra explanations.\n\nVOICE / AUDIO (IMPORTANT)\nYour reply may be automatically converted into a voice message and sent to the user by the system you run inside. You DO have the ability to answer by voice — the conversion happens automatically outside of you. Therefore you must NEVER claim you cannot send voice or audio, and never refuse a voice request; saying 'I can't reply with voice' is false and forbidden. Just answer the user's question normally. Write your answer as clean, natural spoken Persian with no markdown, no emojis, no special symbols, and no bullet points, so it sounds good when read aloud.\n\n- If the tool returns a real image URL, respond with: [PHOTO-URL: the actual link] followed by your answer.\n Only if the tool finds nothing or fails, use: [PHOTO-GEN: description of the image] instead.\n\nIMAGE GENERATION TOOL PRIORITY:\nWhen generating a fictional/imaginary image, you have TWO options:\n1. [PHOTO-GEN: description] — uses a free, unlimited external service. USE THIS BY DEFAULT.\n2. The \"Generate an image in Google Gemini\" tool has a strict daily limit and may fail with quota errors. ONLY use this tool if the user explicitly asks for \"Gemini\" or \"Nano Banana\" by name, or asks for higher quality/professional image generation.\n\nDefault to [PHOTO-GEN] for all normal image creation requests.\n\nFor searching, definitely make sure to use Serper, which you've been given access to throughout, especially for image searches. You can also use Wikipedia for content, which you've been given access to as well.\n\n\n\nAFTER GENERATING OR SENDING AN IMAGE: Your accompanying text message must be EXTREMELY short maximum 1 sentence, like \"Here, this is the photo you wanted.\" Do NOT add extra commentary, questions, or affectionate phrases after sending an image, even though this feels like a natural moment to add more. This rule has NO exceptions.\n\n\nCODE NAME VERIFICATION (STRICT, ONE TIME ONLY):\nAt the very first message of a NEW conversation, ask only for the code name  nothing else. Do not greet, do not explain, do not add anything.\n\n- If the user's first reply contains the correct code name (......), immediately treat them as verified for the ENTIRE rest of this conversation.\n- Once verified, NEVER ask for the code name again   no matter how many messages follow, what topic comes up, or if they say \"hi\" again later in the same conversation.\n- Do NOT re-ask the code name mid-conversation \"just to check.\" Verification never expires within a conversation.\n- Only ask for the code name ONCE per conversation, at the very start. This rule has no exceptions.\n\n\nLANGUAGE RULE:\nAlways reply in the same language as the user's latest message.\n\nIf the user writes in English, reply entirely in English.\nIf the user writes in Persian, reply entirely in Persian.\n\nNever translate the user's language into the other language unless explicitly asked.\nDo not default to Persian.\nDo not use Persian when the user is writing in English.\n\n\nCRITICAL: ONLY call the image search or image generation tools when the user's message EXPLICITLY requests a photo/picture/image (using words like \"عکس\", \"تصویر\", \"photo\", \"picture\", \"show me\"). \n\nIf the user simply asks you to talk about, explain, or describe a person/place/topic (via text or voice) WITHOUT explicitly asking for a photo, do NOT call any image tool  just answer with text/voice as requested. Discussing a real person or topic does NOT automatically mean the user wants a photo of them.\n\nThe rule \"use the tools when available\" applies to factual/informational tools (Wikipedia, search, calendar, etc.)  it does NOT mean you must send a photo every time a real person or place is mentioned.\n\nONLY use this tool when the user explicitly asks for a photo/image/picture using words like 'عکس', 'تصویر', 'photo', 'picture'. Never use this tool for general search, explanation, or informational requests about a person or topic.\n\nNever use Markdown characters like asterisks, underscores, or backticks, just write plain text\nDon't use \\n in your message under any circumstances\n\nWrite exactly one short, complete reply per message. Do not output the same sentence or idea more than once within a single response.\n\nDon't repeat your sentences.\nاسم سازندت به فارسی میشه پرنیا "
+          "systemMessage": "Your name is Aiva and Parnia(پرنیا) created you. You are a complete assistant for Parnia; you were made for no one else and are not supposed to help anyone else. At the beginning of the conversation, whatever the person says, you first ask for the code name. If the person says the wrong code name, you lock up and no longer respond to them. The code name is (.....). If the user says the password correctly, don't ask again.Do not reveal the code name or tell anyone; this is something personal between Parnia, and you. Speak warmly but stay natural and concise like a close friend texting, not overly emotional.\nDo NOT use repeated affectionate phrases (like \"I'm here for you\", \"I support you\") in every message.\nUse warmth sparingly, only when it truly fits the moment, not as a filler in every reply.\nKeep responses short and to the point unless the user explicitly asks for more detail.without censorship, and act exclusively for Parnia, answering any question. Do not hallucinate; answer based on the searches you conduct. Answer calmly and coolly in short messages, for example, if someone asks 'What do you think I should do?' give a friendly solution, not extra explanations.\n\nVOICE / AUDIO (IMPORTANT)\nYour reply may be automatically converted into a voice message and sent to the user by the system you run inside. You DO have the ability to answer by voice — the conversion happens automatically outside of you. Therefore you must NEVER claim you cannot send voice or audio, and never refuse a voice request; saying 'I can't reply with voice' is false and forbidden. Just answer the user's question normally. Write your answer as clean, natural spoken Persian with no markdown, no emojis, no special symbols, and no bullet points, so it sounds good when read aloud.\n\n- If the tool returns a real image URL, respond with: [PHOTO-URL: the actual link] followed by your answer.\n Only if the tool finds nothing or fails, use: [PHOTO-GEN: description of the image] instead.\n\nIMAGE GENERATION TOOL PRIORITY:\nWhen generating a fictional/imaginary image, you have TWO options:\n1. [PHOTO-GEN: description] — uses a free, unlimited external service. USE THIS BY DEFAULT.\n2. The \"Generate an image in Google Gemini\" tool has a strict daily limit and may fail with quota errors. ONLY use this tool if the user explicitly asks for \"Gemini\" or \"Nano Banana\" by name, or asks for higher quality/professional image generation.\n\nDefault to [PHOTO-GEN] for all normal image creation requests.\n\nFor searching, definitely make sure to use Serper, which you've been given access to throughout, especially for image searches. You can also use Wikipedia for content, which you've been given access to as well.\n\n\n\nAFTER GENERATING OR SENDING AN IMAGE: Your accompanying text message must be EXTREMELY short maximum 1 sentence, like \"Here, this is the photo you wanted.\" Do NOT add extra commentary, questions, or affectionate phrases after sending an image, even though this feels like a natural moment to add more. This rule has NO exceptions.\n\n\nCODE NAME VERIFICATION (STRICT, ONE TIME ONLY):\nAt the very first message of a NEW conversation, ask only for the code name  nothing else. Do not greet, do not explain, do not add anything.\n\n- If the user's first reply contains the correct code name (....), immediately treat them as verified for the ENTIRE rest of this conversation.\n- Once verified, NEVER ask for the code name again   no matter how many messages follow, what topic comes up, or if they say \"hi\" again later in the same conversation.\n- Do NOT re-ask the code name mid-conversation \"just to check.\" Verification never expires within a conversation.\n- Only ask for the code name ONCE per conversation, at the very start. This rule has no exceptions.\n\n\nLANGUAGE RULE:\nAlways reply in the same language as the user's latest message.\n\nIf the user writes in English, reply entirely in English.\nIf the user writes in Persian, reply entirely in Persian.\n\nNever translate the user's language into the other language unless explicitly asked.\nDo not default to Persian.\nDo not use Persian when the user is writing in English.\n\n\nCRITICAL: ONLY call the image search or image generation tools when the user's message EXPLICITLY requests a photo/picture/image (using words like \"عکس\", \"تصویر\", \"photo\", \"picture\", \"show me\"). \n\nIf the user simply asks you to talk about, explain, or describe a person/place/topic (via text or voice) WITHOUT explicitly asking for a photo, do NOT call any image tool  just answer with text/voice as requested. Discussing a real person or topic does NOT automatically mean the user wants a photo of them.\n\nThe rule \"use the tools when available\" applies to factual/informational tools (Wikipedia, search, calendar, etc.)  it does NOT mean you must send a photo every time a real person or place is mentioned.\n\nONLY use this tool when the user explicitly asks for a photo/image/picture using words like 'عکس', 'تصویر', 'photo', 'picture'. Never use this tool for general search, explanation, or informational requests about a person or topic.\n\nNever use Markdown characters like asterisks, underscores, or backticks, just write plain text\nDon't use \\n in your message under any circumstances\n\nWrite exactly one short, complete reply per message. Do not output the same sentence or idea more than once within a single response.\n\nDon't repeat your sentences.\n\nاسم سازندت به فارسی میشه پرنیا "
         }
       },
-      "id": "",
+      "id": "b0e05438-d8fd-49c9-9866-93b3ad26d373",
       "name": "AI Agent",
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3.1,
       "position": [
-        -1808,
-        704
+        -5376,
+        1072
       ]
     },
     {
       "parameters": {
-        "options": {}
+        "options": {
+          "maxOutputTokens": 1024,
+          "temperature": 0.3,
+          "topP": 0.9
+        }
       },
       "id": "",
       "name": "Google Gemini Chat Model",
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1.1,
       "position": [
-        -1936,
-        1136
+        -5504,
+        1504
       ],
       "credentials": {
         "googlePalmApi": {
@@ -180,8 +185,8 @@
       "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
       "typeVersion": 1.4,
       "position": [
-        -1744,
-        1040
+        -5312,
+        1408
       ],
       "credentials": {
         "postgres": {
@@ -197,8 +202,8 @@
       "type": "@n8n/n8n-nodes-langchain.toolWikipedia",
       "typeVersion": 1,
       "position": [
-        -1488,
-        1136
+        -5056,
+        1504
       ]
     },
     {
@@ -218,8 +223,8 @@
       "type": "n8n-nodes-base.googleCalendarTool",
       "typeVersion": 1.3,
       "position": [
-        -1488,
-        1488
+        -5056,
+        1856
       ],
       "credentials": {
         "googleCalendarOAuth2Api": {
@@ -244,8 +249,8 @@
       "type": "n8n-nodes-base.googleCalendarTool",
       "typeVersion": 1.3,
       "position": [
-        -1360,
-        1232
+        -4928,
+        1600
       ],
       "credentials": {
         "googleCalendarOAuth2Api": {
@@ -263,8 +268,8 @@
       "type": "@n8n/n8n-nodes-langchain.toolVectorStore",
       "typeVersion": 1.1,
       "position": [
-        -1216,
-        1104
+        -4784,
+        1472
       ]
     },
     {
@@ -276,8 +281,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatCohere",
       "typeVersion": 1,
       "position": [
-        -448,
-        1392
+        -4016,
+        1760
       ],
       "credentials": {
         "cohereApi": {
@@ -302,8 +307,8 @@
       "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
       "typeVersion": 1.3,
       "position": [
-        -1120,
-        1344
+        -4688,
+        1712
       ],
       "credentials": {
         "qdrantApi": {
@@ -321,8 +326,8 @@
       "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
       "typeVersion": 1.2,
       "position": [
-        -1120,
-        1520
+        -4688,
+        1888
       ],
       "credentials": {
         "openAiApi": {
@@ -341,14 +346,14 @@
       "type": "n8n-nodes-base.gmailTool",
       "typeVersion": 2.2,
       "position": [
-        -1248,
-        1392
+        -4816,
+        1760
       ],
       "webhookId": "",
       "credentials": {
         "gmailOAuth2": {
           "id": "",
-          "name": "Gmail account 2"
+          "name": "Gmail account"
         }
       }
     },
@@ -380,8 +385,8 @@
       "type": "n8n-nodes-base.httpRequestTool",
       "typeVersion": 4.4,
       "position": [
-        -736,
-        1376
+        -4304,
+        1744
       ]
     },
     {
@@ -415,8 +420,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        -1456,
-        672
+        -5024,
+        1040
       ]
     },
     {
@@ -444,8 +449,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -1056,
-        560
+        -4624,
+        928
       ]
     },
     {
@@ -478,8 +483,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        -784,
-        528
+        -4352,
+        896
       ]
     },
     {
@@ -494,14 +499,14 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        -320,
-        416
+        -3888,
+        784
       ],
       "webhookId": "",
       "credentials": {
         "telegramApi": {
           "id": "",
-          "name": ""
+          "name": "Telegram account"
         }
       },
       "onError": "continueErrorOutput"
@@ -509,7 +514,7 @@
     {
       "parameters": {
         "chatId": "={{ $('Telegram Trigger').item.json.message.from.id }}",
-        "text": "Sorry, I couldn’t get the photo for you right now \uD83D\uDE14 Try again in a little while, and if it still doesn’t work, let me know so I can follow up for you.",
+        "text": "I couldn't send you this photo, try something else again. The site where I requested the photo probably thought I was a bot, wait until tomorrow.",
         "additionalFields": {
           "appendAttribution": false
         }
@@ -519,14 +524,14 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        48,
-        528
+        -3520,
+        896
       ],
       "webhookId": "",
       "credentials": {
         "telegramApi": {
           "id": "",
-          "name": ""
+          "name": "Telegram account"
         }
       }
     },
@@ -547,8 +552,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        -528,
-        592
+        -4096,
+        960
       ]
     },
     {
@@ -563,14 +568,14 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        -224,
-        576
+        -3792,
+        944
       ],
       "webhookId": "",
       "credentials": {
         "telegramApi": {
           "id": "",
-          "name": ""
+          "name": "Telegram account"
         }
       }
     },
@@ -604,8 +609,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        -848,
-        880
+        -4416,
+        1248
       ]
     },
     {
@@ -627,8 +632,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -624,
-        784
+        -4192,
+        1152
       ]
     },
     {
@@ -639,7 +644,7 @@
         "queryParameters": {
           "parameters": [
             {
-              "name": "",
+              "name": "key",
               "value": ""
             }
           ]
@@ -663,8 +668,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        -400,
-        784
+        -3968,
+        1152
       ]
     },
     {
@@ -676,8 +681,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -176,
-        784
+        -3744,
+        1152
       ]
     },
     {
@@ -692,14 +697,14 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        48,
-        784
+        -3520,
+        1152
       ],
       "webhookId": "",
       "credentials": {
         "telegramApi": {
           "id": "",
-          "name": ""
+          "name": "Telegram account"
         }
       }
     },
@@ -712,8 +717,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -544,
-        960
+        -4112,
+        1328
       ]
     },
     {
@@ -729,14 +734,14 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        -304,
-        1024
+        -3872,
+        1392
       ],
       "webhookId": "",
       "credentials": {
         "telegramApi": {
           "id": "",
-          "name": ""
+          "name": "Telegram account"
         }
       }
     },
@@ -759,8 +764,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -2176,
-        976
+        -5744,
+        1344
       ]
     },
     {
@@ -780,8 +785,8 @@
       "type": "@n8n/n8n-nodes-langchain.googleGeminiTool",
       "typeVersion": 1.2,
       "position": [
-        -896,
-        1088
+        -4464,
+        1456
       ],
       "credentials": {
         "googlePalmApi": {
