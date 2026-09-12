@@ -134,7 +134,7 @@ Please do not rely solely on this agent when making buying or selling decisions.
 
 I used Alpha Vantage for technical analysis and Alpha Vantage Overview for fundamental analysis of U.S. stocks, so that the agent can perform very good analysis. I also added Twelve Data with the goal of using non-U.S. and international markets, but unfortunately, to access international markets, you must upgrade your Twelve Data account to Premium and make a small change to the prompt to tell the agent to use this tool. In this project, I placed it alongside Alpha Vantage for analyzing U.S. stocks.
 
-For analyzing the forex market, I used Alpha Vantage FX this is a separate tool dedicated to currency pairs (like EUR/USD), not stocks. The agent can analyze currency pairs and provide signals based on the same support/resistance and pullback logic.
+For analyzing the forex market, For forex analysis, I used Alpha Vantage FX and Twelve Data for technical analysis, and FRED for fundamental analysis. The agent can analyze currency pairs and provide signals based on the same support/resistance and pullback logic.
 
 CoinGecko, Fundamental Analysis CoinGecko, and Binance Klines are used for both technical and fundamental analysis, but specifically for the cryptocurrency market (such as Bitcoin, Ethereum, etc.), and as mentioned, these tools also calculate support and resistance zones and pullbacks, just like forex.
 
