@@ -138,7 +138,7 @@ For analyzing the forex market, For forex analysis, I used Alpha Vantage FX and 
 
 CoinGecko, Fundamental Analysis CoinGecko, and Binance Klines are used for both technical and fundamental analysis, but specifically for the cryptocurrency market (such as Bitcoin, Ethereum, etc.), and as mentioned, these tools also calculate support and resistance zones and pullbacks, just like forex.
 
-**Important:** Unfortunately, Alpha Vantage has a daily limit of 25 requests. If you notice that it is no longer responding, you will need to try again later.I set up the prompt so that if it doesn't work and can't get data, it will get it from Twelve Data.
+**Important:** Unfortunately, Alpha Vantage has a daily limit of 25 requests. If you notice that it is no longer responding, you will need to try again later.I set up the prompt so that if it doesn't work and can't get data, it will get it from Twelve Data.If you're using cloud storage and the n8n site, Alpha Vantage FX might probably have some limitations.
 
 ### 🔴Any attempt to scam, misuse, exploit, or sell this agent through other channels, or to take advantage of other people's lack of knowledge or trust, will be dealt with very seriously and strictly🔴
 
