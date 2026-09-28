@@ -23,7 +23,7 @@ Aiva has two memory systems, and both of them are extremely powerful:
 * **Postgres Chat Memory** for **conversation memory**
 
 Aiva will only respond to you if you provide the correct code name. If you don't provide the correct code name, she will never answer your questions.
-You can change the code name.
+You can choose a code name.
 
 To use Aiva, change your own name in the System Message of the AI Agent from parnia or پرنیا to your own name. After that, Aiva will be your friend.
 You can also change her name if you don't like the name Aiva.
