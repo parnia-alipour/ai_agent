@@ -59,6 +59,14 @@ First, sign up and then create a project. Go to the **Database** section, then *
 4. User
 5. Password
 
+Another API:
+[Telegram Bot Token](https://t.me/BotFather)
+[Gemini](https://aistudio.google.com/apikey)
+[Serper API Key(for search)](https://serper.dev)
+[Cohere ApiKey](https://dashboard.cohere.com/api-keys)
+[OpenAI API Key](https://platform.openai.com/api-keys)
+
+
 
 Talk with Aiva...
 
